@@ -11,9 +11,15 @@ The extension should now have a consistent id
 ## api
 Used for database and supabase edge functions
 1. Initialize a supabase project
+2. Initialize local supabase. Make sure to stop all running projects first.
+3. May have to change the ports
+4. Set the SUPABASE_API_URL, SUPABASE_FUNCTIONS_URL, and API_ANON_TOKEN in extension and web
 
 ## web
 Used for authentication but can also be the extension main page. Passes the authentication token to the extension.
+
+### supabase integration
+Make sure the supabase project variables are pasted into the .env file
 
 ### google identity api
 1. Set up OAuth api in https://console.cloud.google.com/apis/credentials
@@ -28,4 +34,6 @@ Used for authentication but can also be the extension main page. Passes the auth
     AUTH_GOOGLE_SECRET=
 4. to https://supabase.com/dashboard/project/cykhwgdgewwlucjfwhax/auth/providers (google) add the Client ID and Client Secret.
 copy the Callback Url and insert it in the google api page
+5. On the consent screen page make sure to change the App name that shows up to users (otherwise you will get the ugly supabase url instead)
+6. I think you have to make a local AND prod google application
 
