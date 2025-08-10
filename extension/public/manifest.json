@@ -3,7 +3,7 @@
   "name": "<name>",
   "description": "<description>",
   "version": "1.0",
-  "key": "<key>",
+  "key": "<70+ character google oauth api key>",
   "permissions": ["webRequest", "storage"],
   "action": {
     "default_popup": "index.html"
@@ -14,8 +14,7 @@
   "externally_connectable": {
     "matches": [
       "*://localhost:*/*",
-      "*://127.0.0.1:*/*",
-      "*://wiseflashcards.com/*"
+      "*://127.0.0.1:*/*"
     ]
   },
   "content_scripts": [

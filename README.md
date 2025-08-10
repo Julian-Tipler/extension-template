@@ -41,7 +41,7 @@ Used for authentication but can also be the extension main page. Passes login au
 # Running locally
 
 1. npm run build
-2. Upload extension dist folder at chrome://extensions
+2. Open chrome://extensions in chrome and unpack dist folder
 3. /extension npm run watch
 4. /api deno task local
 5. /web npm run dev

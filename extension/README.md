@@ -1,3 +1,7 @@
+## Development
+
+npm run watch
+
 ## Deployment
 
 1. Build app with production variables commented in.
