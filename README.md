@@ -33,6 +33,7 @@ Settings page:
 - Customize screen overlay
 - Mom health bar or some long term stats
 - User Metrics display
+- Maybe a system to send a text to your mom
 
 ## Monetization
 

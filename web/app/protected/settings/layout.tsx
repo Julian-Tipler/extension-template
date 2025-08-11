@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 // Define our navigation items
 const navItems = [
-  { name: "Profile", href: "/protected/settings/profile" },
+  { name: "Account", href: "/protected/settings/account" },
   { name: "Bad Websites", href: "/protected/settings/bad-websites" },
   { name: "Good Websites", href: "/protected/settings/good-websites" },
   //   { name: "Security", href: "/protected/settings/security" },

@@ -6,19 +6,19 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Checkbox } from "@/components/ui/Checkbox";
 
-export default function ProfilePage() {
+export default function AccountPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold">Profile Settings</h2>
+        <h2 className="text-2xl font-bold">Account Settings</h2>
         <p className="text-muted-foreground mt-2">
-          Manage your personal information and public profile
+          Manage Your Mom and personal information
         </p>
       </div>
 
       <div className="border-t pt-6">
         <form className="space-y-6">
-          {/* Profile image */}
+          {/* Your Mom image */}
           <div className="flex items-center gap-x-6">
             <div className="relative h-24 w-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 overflow-hidden">
               <span className="text-xl font-semibold">JD</span>
@@ -31,18 +31,6 @@ export default function ProfilePage() {
               <p className="mt-2 text-xs text-muted-foreground">
                 JPG, PNG, or GIF. 1MB max.
               </p>
-            </div>
-          </div>
-
-          {/* Name fields */}
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="firstName">First name</Label>
-              <Input id="firstName" placeholder="First name" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="lastName">Last name</Label>
-              <Input id="lastName" placeholder="Last name" />
             </div>
           </div>
 

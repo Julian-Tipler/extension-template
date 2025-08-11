@@ -17,7 +17,7 @@ export default function SettingsPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {/* Settings Card - Profile */}
+        {/* Settings Card - Account */}
         <div className="bg-card border rounded-lg p-4 shadow-sm">
           <h3 className="font-semibold mb-2">Account</h3>
           <p className="text-sm text-muted-foreground mb-4">
@@ -26,7 +26,7 @@ export default function SettingsPage() {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => router.push("/protected/settings/profile")}
+            onClick={() => router.push("/protected/settings/account")}
           >
             Manage Account
           </Button>
@@ -76,7 +76,7 @@ export default function SettingsPage() {
             View Purchases
           </Button>
         </div>
-        
+
         {/* Settings Card - Website List */}
         <div className="bg-card border rounded-lg p-4 shadow-sm">
           <h3 className="font-semibold mb-2">Website List</h3>
