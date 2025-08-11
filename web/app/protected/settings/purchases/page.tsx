@@ -18,7 +18,6 @@ type Purchase = {
   product?: {
     name: string;
     price?: number;
-    currency?: string;
   };
 };
 
@@ -44,7 +43,7 @@ export default function PurchasesPage() {
             product:productId (
               name,
               price,
-              currency
+              description
             )
           `
           )
@@ -203,11 +202,8 @@ export default function PurchasesPage() {
                     {purchase.product?.name || "Unknown Product"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    {purchase.product?.price && purchase.product?.currency
-                      ? formatCurrency(
-                          purchase.product.price,
-                          purchase.product.currency
-                        )
+                    {purchase.product?.price
+                      ? formatCurrency(purchase.product.price, "USD")
                       : "N/A"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
