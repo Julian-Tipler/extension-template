@@ -17,6 +17,42 @@ import { useModal } from "@/app/context/ModalContext";
 import Spacer from "../ui/Spacer";
 import { IconColor } from "../ui/icons/IconColor";
 
+// Function to assign free products to users
+async function assignFreeProductsToUser(userId: string) {
+  const supabase = createClient();
+  
+  // 1. Get all free products
+  const { data: freeProducts, error: productsError } = await supabase
+    .from("products")
+    .select("id")
+    .eq("price", 0);
+    
+  if (productsError || !freeProducts?.length) return;
+  
+  // 2. Check if user already has these products
+  const { data: existingPurchases } = await supabase
+    .from("purchases")
+    .select("productId")
+    .eq("userId", userId);
+    
+  const existingProductIds = existingPurchases?.map(p => p.productId) || [];
+  
+  // 3. Create purchase records for products the user doesn't already have
+  const newPurchases = freeProducts
+    .filter(product => !existingProductIds.includes(product.id))
+    .map(product => ({
+      userId,
+      productId: product.id,
+      status: "active",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }));
+    
+  if (newPurchases.length) {
+    await supabase.from("purchases").insert(newPurchases);
+  }
+}
+
 export function SignUpForm({
   className,
   ...props
@@ -44,7 +80,7 @@ export function SignUpForm({
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -53,8 +89,13 @@ export function SignUpForm({
       });
       if (error) throw error;
 
+      // Assign free products to new user
+      if (data?.user) {
+        await assignFreeProductsToUser(data.user.id);
+      }
+
       closeModal();
-      router.push(redirectLink || "/protected/account");
+      router.push(redirectLink || "/protected/settings/account");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
