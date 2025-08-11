@@ -1,20 +1,17 @@
 import { GraphIcon } from "@/components/ui/icons/GraphIcon";
 import { HappyEmojiIcon } from "@/components/ui/icons/HappyEmojiIcon";
 import { HeadsetIcon } from "@/components/ui/icons/HeadsetIcon";
-import { CodeIcon } from "lucide-react";
+import { IconColor } from "@/components/ui/icons/IconColor";
+import { BookOpen, Clock, Code, Eye, Smile } from "lucide-react";
 
 // Centralized site config for brand name
-export const BRAND_NAME = "PRODUCT NAME";
+export const BRAND_NAME = "Your Mom";
 export const SUPPORT_EMAIL = "tipler.julian@gmail.com";
 
-
-
 // HERO
-export const MAIN_TAGLINE = "MAIN TAGLINE";
-export const SUB_TAGLINE =
-  "Turn visitors into customers with " +
-  BRAND_NAME +
-  "'s intuitive FILL IN HERE solution.";
+export const MAIN_TAGLINE = `"I'm not sad, I'm disappointed"`;
+
+export const SUB_TAGLINE = "Mother always knows best!";
 
 export const USE_CASES = [
   "product discovery",
@@ -26,33 +23,32 @@ export const USE_CASES = [
 // FEATURES
 export const FEATURES = [
   {
-    title: "title 1",
+    title: "Get more work done!",
     description:
-      "description 1 text lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    icon: HeadsetIcon,
+      "When mom is watching, you get 10x more work done. No more procrastination!",
+    icon: Clock,
   },
   {
-    title: "title 2",
+    title: 'Stop watching "certain" videos!',
     description:
-      "description 2 text lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    icon: GraphIcon,
+      "Don't consume content that would make mom disappointed. Focus on what matters!",
+    icon: Eye,
   },
   {
-    title: "title 3",
+    title: "Study harder!",
     description:
-      "description 3 text lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    icon: HappyEmojiIcon,
+      "A mother's love is the best motivation. Study harder and achieve your goals!",
+    icon: BookOpen,
   },
   {
-    title: "title 4",
-    description:
-      "description 4 text lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    icon: CodeIcon,
+    title: "Make Mom proud!",
+    description: "Show your mom you can do it!",
+    icon: Smile,
   },
 ];
 
 export const FEATURE_TAGLINE =
-  "Feature tagline text lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+  "";
 
 // PLANS
 export const WHICH_PLAN_BEST_VALUE = 1;
@@ -76,7 +72,6 @@ export const CALL_TO_ACTION_DESCRIPTION =
   ". Our team of engineers is ready to answer your questions and help you get started.";
 
 // FAQ (use the faq component)
-
 
 // SEO
 

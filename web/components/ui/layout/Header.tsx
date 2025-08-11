@@ -11,7 +11,7 @@ import { IconColor } from "../icons/IconColor";
 
 export const Header = () => {
   return (
-    <header className="sticky top-0 left-0 right-0 z-10">
+    <header className="sticky top-0 left-0 right-0 z-10 ">
       <a
         href="#main-content"
         className="flex items-center justify-center sr-only focus:not-sr-only absolute top-0 left-0 right-0 bg-blue-600 text-white p-2 focus:outline-dotted outline-2 outline-offset-[-2px] outline-white"

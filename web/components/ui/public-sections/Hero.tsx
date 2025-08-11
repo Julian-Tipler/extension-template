@@ -7,6 +7,7 @@ import Spacer from "../Spacer";
 import { SupportingText } from "../text/SupportingText";
 import { TitleText } from "../text/TitleText";
 import { IconColor } from "../icons/IconColor";
+import MomCustomizer from "../MomCustomizer";
 
 export const Hero = ({ variant = "primary" }: { variant?: Variant }) => {
   return (
@@ -41,7 +42,7 @@ export const Hero = ({ variant = "primary" }: { variant?: Variant }) => {
             No login required!
           </p> */}
         </div>
-        <RotatingMessages />
+        <MomCustomizer />
       </div>
     </Section>
   );

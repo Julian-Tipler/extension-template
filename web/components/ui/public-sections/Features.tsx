@@ -14,9 +14,8 @@ export const Features = ({ variant = "primary" }: { variant?: Variant }) => {
             aria-live="polite"
           >
             <span>
-              Revolutionize <UseCaseText />
+              Achieve more <UseCaseText />
             </span>
-            <span className="mt-2 block">in minutes</span>
           </h2>
           <p className="font-light text-gray-600 dark:text-gray-400 sm:text-lg">
             {FEATURE_TAGLINE}

@@ -4,13 +4,13 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --secondary-background: #F9F9FA;
+    --background: #FFF1D6;
+    --secondary-background: #f7e3ba;
     --foreground: #0a0a0a --card: #ffffff;
     --card-foreground: #0a0a0a;
     --popover: #ffffff;
     --popover-foreground: #0a0a0a;
-    --primary: #2463eb;
+    --primary: #AE4520;
     --primary-hover: #5989f2;
     --primary-foreground: #ffffff;
     --secondary: #f0f0f0;

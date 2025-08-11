@@ -9,7 +9,7 @@ export const Contact = ({ variant = "primary" }: { variant?: Variant }) => {
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:py-16 lg:px-6">
         <div className="mx-auto max-w-screen-sm text-center">
           <h2 className="mb-4 text-4xl font-normal leading-tight text-gray-900 dark:text-white">
-            Talk to an engineer today
+            Give us feedback here!
           </h2>
           <p className="mb-2 font-light text-gray-500 dark:text-gray-400 md:text-lg">
             We&apos;re here to help you get started with {SERVICE}. Our team of
