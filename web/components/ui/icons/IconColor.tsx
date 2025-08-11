@@ -8,17 +8,17 @@ export const IconColor = ({
   className?: string;
 }) => {
   return (
-    <div 
-      className="relative" 
-      style={{ 
-        width: `${size}px`, 
+    <div
+      className="relative"
+      style={{
+        width: `${size}px`,
         height: `${size}px`,
-        overflow: 'hidden',
-        borderRadius: '5%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#f0f0f0' // Light background to make rounded edges visible
+        overflow: "hidden",
+        borderRadius: "5%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f0f0f0", // Light background to make rounded edges visible
       }}
     >
       <Image

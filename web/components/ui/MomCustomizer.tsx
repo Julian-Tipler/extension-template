@@ -1,6 +1,9 @@
 "use client";
+import { BRAND_NAME } from "@/lib/siteConfig";
 import Image from "next/image";
 import { useState } from "react";
+import { Button } from "./Button";
+import { IconColor } from "./icons/IconColor";
 
 const moms = [
   {
@@ -63,7 +66,7 @@ export default function MomCustomizer() {
       {/* Mom selection */}
       <div className="w-full">
         <h3 className="text-gray-500 text-sm font-medium mb-3 text-center">
-          Choose Your Mom
+          Choose Your Mom:
         </h3>
         <div className="grid grid-cols-3 gap-3 w-full">
           {moms.map((mom, i) => (
@@ -89,6 +92,9 @@ export default function MomCustomizer() {
           ))}
         </div>
       </div>
+      <Button variant={"primary"} className="px-8">
+        Get {BRAND_NAME}!
+      </Button>
     </div>
   );
 }

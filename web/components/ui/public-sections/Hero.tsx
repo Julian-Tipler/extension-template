@@ -29,14 +29,9 @@ export const Hero = ({ variant = "primary" }: { variant?: Variant }) => {
               className="min-w-72 rounded-md border border-gray-300 p-2 text-base shadow-sm focus:border-blue-500 focus:ring-blue-500"
               //   onKeyDown={handleKeyPress}
             /> */}
-            <Button variant={"primary"} className="px-8">
-              Get {BRAND_NAME}
-              <IconColor />
-            </Button>
           </div>
-          <Spacer size="small" />
-          <SubText className="text-green-600">
-            $50 off for the first 100 customers &#40;8 left&#41;
+          <SubText className="text-tertiary">
+            Get {BRAND_NAME} for free!
           </SubText>
           {/* <p className="mt-1 text-center text-sm font-light text-gray-500">
             No login required!

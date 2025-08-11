@@ -27,10 +27,27 @@ Settings page:
 - Screen time (of website list)
   - Timer in screen overlay
   - Option to actually block websites after a certain period of time
+  - Mom gets sadder and sadder the more you use it
 - Your Dad
 - Your waifu/husbandfu
 - Customize screen overlay
 - Mom health bar or some long term stats
+- User Metrics display
+
+## Monetization
+
+- Free moms with basic styling
+- Each additional mon is 2.99
+- Buying a premium one unlocks more expressions
+
+### Implementation:
+
+- user selects free mom
+  - take them to Stripe redirect page but check if mom is free. If free, just create the subscription entry
+  - if not free take them to stripe page to checkout
+  - in stripe hooks trigger creation of subscription
+  - they should now be able to see their mom in the chrome extension, which checks the subscriptions table
+  - redirect to success page
 
 # Setup
 

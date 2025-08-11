@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-const USE_CASES = ["at work", "at school", "at home", "of your personal goals"];
-const COLORS = ["text-primary", "text-primary", "text-primary", "text-primary"];
+const USE_CASES = ["at work", "at school", "at home", "personal goals"];
+const COLORS = ["text-primary", "text-primary", "text-primary", "text-tertiary"];
 export const UseCaseText = () => {
   const [index, setIndex] = useState(0);
 

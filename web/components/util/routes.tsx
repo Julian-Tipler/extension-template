@@ -21,12 +21,6 @@ export const ROUTES = {
     contact: {
       path: "/contact",
     },
-    faq: {
-      path: "/faq",
-    },
-    blog: {
-      path: "/blog",
-    },
     about: {
       path: "/about",
     },
@@ -48,20 +42,9 @@ export type LinkItemProps = {
 export const LINK_ITEMS: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/" },
   {
-    name: "Custom Solutions",
-    icon: FiTool, // Custom/solutions related icon
-    href: ROUTES.public.contact.path,
-  },
-  {
     name: "Contact",
     icon: FiPhone, // Phone/contact related icon
     href: ROUTES.public.contact.path,
   },
-  {
-    name: "FAQ",
-    icon: FiHelpCircle, // Question/help related icon
-    href: ROUTES.public.faq.path,
-  },
-  { name: "Blog", icon: GrArticle, href: ROUTES.public.blog.path },
   // ...existing code...
 ];

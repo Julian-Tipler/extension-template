@@ -8,6 +8,8 @@ import { BookOpen, Clock, Code, Eye, Smile } from "lucide-react";
 export const BRAND_NAME = "Your Mom";
 export const SUPPORT_EMAIL = "tipler.julian@gmail.com";
 
+// Video: "How I did your mom"
+
 // HERO
 export const MAIN_TAGLINE = `"I'm not sad, I'm disappointed"`;
 
@@ -47,8 +49,7 @@ export const FEATURES = [
   },
 ];
 
-export const FEATURE_TAGLINE =
-  "";
+export const FEATURE_TAGLINE = "";
 
 // PLANS
 export const WHICH_PLAN_BEST_VALUE = 1;

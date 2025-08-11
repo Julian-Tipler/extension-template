@@ -85,7 +85,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <RootJsonLd />
+        {/* Use key to help React reconcile the elements */}
+        <RootJsonLd key="json-ld-scripts" />
       </head>
       <body className={`${geistSans.className} antialiased`}>
         <ThemeProvider

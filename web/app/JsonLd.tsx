@@ -1,4 +1,5 @@
 import { organizationSchema, productSchema } from "@/lib/schema";
+import Script from "next/script";
 
 // Create a WebPage schema for the homepage
 const webPageSchema = {
@@ -49,10 +50,12 @@ export default function RootJsonLd() {
   return (
     <>
       {allSchemas.map((schema, index) => (
-        <script
+        <Script
           key={index}
+          id={`json-ld-${index}`}
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          strategy="beforeInteractive"
         />
       ))}
     </>
