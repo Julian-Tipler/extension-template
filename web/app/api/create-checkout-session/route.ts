@@ -4,10 +4,10 @@ import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   try {
-    const { stripePriceId } = await request.json();
+    const { productId } = await request.json();
 
     // Validate input
-    if (!stripePriceId) {
+    if (!productId) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -26,19 +26,34 @@ export async function POST(request: Request) {
       );
     }
 
+    // Fetch the product from the database to get the stripePriceId
+    const { data: product, error: productError } = await supabase
+      .from("products")
+      .select("stripePriceId")
+      .eq("id", productId)
+      .single();
+
+    if (productError || !product) {
+      console.error("Error fetching product:", productError);
+      return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    }
+
+    const stripePriceId = product.stripePriceId;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
         {
-          price: stripePriceId, // Assuming stripePriceId is a valid Stripe price ID
+          price: stripePriceId, // Use the stripePriceId fetched from the product
           quantity: 1,
         },
       ],
-      mode: "subscription",
+      mode: "payment",
       success_url: `${request.headers.get("origin")}/payment/success`,
       cancel_url: `${request.headers.get("origin")}/payment/cancel`,
       metadata: {
         stripePriceId,
+        productId,
         user_id: id,
         email: email,
       },

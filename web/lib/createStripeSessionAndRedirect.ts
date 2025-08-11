@@ -1,11 +1,11 @@
-export const createStripeSessionAndRedirect = async (stripePriceId: string) => {
+export const createStripeSessionAndRedirect = async (productId: string) => {
   try {
     const response = await fetch("/api/create-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ stripePriceId }),
+      body: JSON.stringify({ productId }),
     });
     const data = await response.json();
     if (data?.session?.url) {
