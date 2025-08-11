@@ -1,9 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "<name>",
-  "description": "<description>",
+  "name": "Your Mom",
+  "description": "I'm not mad, I'm just disappointed.",
   "version": "1.0",
-  "key": "<70+ character google oauth api key>",
   "permissions": ["webRequest", "storage"],
   "action": {
     "default_popup": "index.html"
@@ -12,10 +11,7 @@
     "service_worker": "./background/background.js"
   },
   "externally_connectable": {
-    "matches": [
-      "*://localhost:*/*",
-      "*://127.0.0.1:*/*"
-    ]
+    "matches": ["*://localhost:*/*", "*://127.0.0.1:*/*"]
   },
   "content_scripts": [
     {

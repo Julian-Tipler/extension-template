@@ -1,1 +1,83 @@
 /* content css goes here*/
+
+#your-mom-draggable {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 100, 100, 0.8); /* Red with some transparency */
+  position: fixed;
+  z-index: 2147483647; /* Maximum z-index to ensure it's on top */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  cursor: move;
+  user-select: none;
+  touch-action: none;
+  transition: background-color 0.2s ease;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: block !important; /* Always show */
+  visibility: visible !important; /* Always visible */
+  border-radius: 25%;
+}
+
+#your-mom-draggable:hover {
+  background-color: rgba(255, 50, 50, 0.9);
+}
+
+#your-mom-draggable.dragging {
+  background-color: rgba(255, 0, 0, 1);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+  opacity: 0.9;
+}
+
+/* Quadrant overlays */
+.quadrant-overlay {
+  position: fixed;
+  background-color: transparent; /* Completely transparent by default */
+  opacity: 0; /* Fully transparent */
+  z-index: 2147483646; /* Just below the draggable element */
+  pointer-events: none; /* Don't interfere with mouse events */
+  transition: all 0.15s ease;
+  box-shadow: none; /* No shadow */
+  border: none; /* No border */
+  visibility: hidden; /* Hide by default */
+  margin: 0;
+  padding: 0;
+  border-radius: 2%;
+  /* Remove width and height to let the positioning determine size */
+}
+
+/* Individual quadrant positioning */
+#quadrant-top-left {
+  top: 0;
+  left: 0;
+  right: 50%;
+  bottom: 50%;
+}
+
+#quadrant-top-right {
+  top: 0;
+  left: 50%;
+  right: 0;
+  bottom: 50%;
+}
+
+#quadrant-bottom-left {
+  top: 50%;
+  left: 0;
+  right: 50%;
+  bottom: 0;
+}
+
+#quadrant-bottom-right {
+  top: 50%;
+  left: 50%;
+  right: 0;
+  bottom: 0;
+}
+
+.quadrant-overlay.active {
+  background-color: rgba(128, 128, 128, 0.2) !important; /* Gray with 20% opacity when active */
+  opacity: 1 !important; /* Fully visible when active */
+  visibility: visible !important; /* Force visible */
+  display: block !important; /* Force display */
+}
