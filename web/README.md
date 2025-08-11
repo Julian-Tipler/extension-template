@@ -16,7 +16,8 @@ simplest solution: have the purchase button just redirect to login and have the 
 3. supabase init
 4. link supabase
 5. run supabase db up
-6. disable email confirmation
+6. might be  supabase db reset --linked                        
+7. disable email confirmation
 
 ## Mailgun (incomplete)
 

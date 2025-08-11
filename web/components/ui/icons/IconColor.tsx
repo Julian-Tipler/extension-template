@@ -22,7 +22,7 @@ export const IconColor = ({
       }}
     >
       <Image
-        src="https://opzgshmkqzcakfxroxnq.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png"
+        src="https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png"
         alt="Mom Icon"
         width={parseInt(size)}
         height={parseInt(size)}

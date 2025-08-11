@@ -46,7 +46,7 @@ export function LoginForm({
       closeModal();
       // Update this route to redirect to an authenticated route. The user already has an active session.
       console.log("ABOUT TO REDIRECT TO   ", redirectLink);
-      router.push(redirectLink || "/protected");
+      router.push(redirectLink || "/protected/account");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {

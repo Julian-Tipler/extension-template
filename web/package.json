@@ -5,7 +5,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "supabase-push": "supabase db push --linked"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.1",

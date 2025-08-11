@@ -54,7 +54,7 @@ export function SignUpForm({
       if (error) throw error;
 
       closeModal();
-      router.push(redirectLink || "/protected");
+      router.push(redirectLink || "/protected/account");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {

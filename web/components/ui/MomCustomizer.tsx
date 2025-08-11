@@ -8,13 +8,13 @@ import { IconColor } from "./icons/IconColor";
 const moms = [
   {
     happy:
-      "https://opzgshmkqzcakfxroxnq.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png",
-    sad: "https://opzgshmkqzcakfxroxnq.supabase.co/storage/v1/object/public/mom-sprites/mom-sad.png",
+      "https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png",
+    sad: "https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-sad.png",
   },
   {
     happy:
-      "https://opzgshmkqzcakfxroxnq.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png",
-    sad: "https://opzgshmkqzcakfxroxnq.supabase.co/storage/v1/object/public/mom-sprites/mom-sad.png",
+      "https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png",
+    sad: "https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-sad.png",
   },
 ];
 

@@ -8,14 +8,18 @@ import { Button } from "@/components/ui/Button";
 // Define the Purchase type based on your Supabase schema
 type Purchase = {
   id: string;
-  created_at: string;
-  user_id: string;
-  product_name: string;
-  amount: number;
-  currency: string;
-  status: string;
-  payment_method?: string;
-  invoice_id?: string;
+  userId: string;
+  productId: string;
+  stripePurchaseId?: string;
+  status: "active" | "unpaid";
+  updatedAt: string;
+  createdAt: string;
+  // Include joined product data if needed
+  product?: {
+    name: string;
+    price?: number;
+    currency?: string;
+  };
 };
 
 export default function PurchasesPage() {
@@ -34,9 +38,18 @@ export default function PurchasesPage() {
 
         const { data, error } = await supabase
           .from("purchases")
-          .select("*")
-          .eq("user_id", session.user.id)
-          .order("created_at", { ascending: false });
+          .select(
+            `
+            *,
+            product:productId (
+              name,
+              price,
+              currency
+            )
+          `
+          )
+          .eq("userId", session.user.id)
+          .order("createdAt", { ascending: false });
 
         if (error) {
           throw error;
@@ -184,22 +197,25 @@ export default function PurchasesPage() {
               {purchases.map((purchase) => (
                 <tr key={purchase.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    {formatDate(purchase.created_at)}
+                    {formatDate(purchase.createdAt)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    {purchase.product_name}
+                    {purchase.product?.name || "Unknown Product"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    {formatCurrency(purchase.amount, purchase.currency)}
+                    {purchase.product?.price && purchase.product?.currency
+                      ? formatCurrency(
+                          purchase.product.price,
+                          purchase.product.currency
+                        )
+                      : "N/A"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        purchase.status === "completed"
+                        purchase.status === "active"
                           ? "bg-green-100 text-green-800"
-                          : purchase.status === "processing"
-                          ? "bg-blue-100 text-blue-800"
-                          : purchase.status === "failed"
+                          : purchase.status === "unpaid"
                           ? "bg-red-100 text-red-800"
                           : "bg-gray-100 text-gray-800"
                       }`}
@@ -209,14 +225,16 @@ export default function PurchasesPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    {purchase.invoice_id && (
+                    {purchase.stripePurchaseId && (
                       <Button
                         variant="link"
                         size="sm"
                         className="text-primary hover:text-primary-hover"
                         onClick={() => {
                           // Handle invoice download or view
-                          console.log(`View invoice ${purchase.invoice_id}`);
+                          console.log(
+                            `View purchase ${purchase.stripePurchaseId}`
+                          );
                         }}
                       >
                         View Receipt
