@@ -19,8 +19,8 @@ async function init() {
 
   // Set the appropriate image based on the website
   const imageUrl = isExampleWebsite
-    ? "url('https://opzgshmkqzcakfxroxnq.supabase.co/storage/v1/object/public/mom-sprites/mom-sad.png')"
-    : "url('https://opzgshmkqzcakfxroxnq.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png')";
+    ? "url('https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-sad.png')"
+    : "url('https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png')";
 
   draggableDiv.style.backgroundImage = imageUrl;
   draggableDiv.style.backgroundSize = "contain";
