@@ -1,32 +1,33 @@
 /* content css goes here*/
 
 #your-mom-draggable {
-  width: 50px;
-  height: 50px;
-  background-color: rgba(255, 100, 100, 0.8); /* Red with some transparency */
+  width: 94px; /* Match image width */
+  height: 96px; /* Match image height */
+  background-color: transparent; /* No background color since we're using an image */
   position: fixed;
   z-index: 2147483647; /* Maximum z-index to ensure it's on top */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   cursor: move;
   user-select: none;
   touch-action: none;
-  transition: background-color 0.2s ease;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   display: block !important; /* Always show */
   visibility: visible !important; /* Always visible */
-  border-radius: 25%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 25%; /* Add back the rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for depth */
 }
 
 #your-mom-draggable:hover {
-  background-color: rgba(255, 50, 50, 0.9);
+  filter: brightness(1.1); /* Subtle brightness increase on hover */
 }
 
 #your-mom-draggable.dragging {
-  background-color: rgba(255, 0, 0, 1);
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-  opacity: 0.9;
+  filter: brightness(1.2); /* Brighter when dragging */
+  opacity: 0.95;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow when dragging */
 }
 
 /* Quadrant overlays */
@@ -76,7 +77,12 @@
 }
 
 .quadrant-overlay.active {
-  background-color: rgba(128, 128, 128, 0.2) !important; /* Gray with 20% opacity when active */
+  background-color: rgba(
+    128,
+    128,
+    128,
+    0.2
+  ) !important; /* Gray with 20% opacity when active */
   opacity: 1 !important; /* Fully visible when active */
   visibility: visible !important; /* Force visible */
   display: block !important; /* Force display */

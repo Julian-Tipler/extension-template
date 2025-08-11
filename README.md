@@ -1,3 +1,37 @@
+# Your Mom
+
+## Description (for AI)
+
+your-mom is a chrome extension with a next.js website. It is an absolutely positioned draggable component that display an 8 bit character meant to resemble the user's mother
+
+## Marketing
+
+"I'm not mad, I'm dissapointed."
+"Make your mom proud" (next to smiling pic)
+"Mom is always watching"
+"A mother knows best
+
+## Features
+
+Popup that displays "absolute" on your screen and watches your browsing history. She can be dragged into any of the top left, right, bottom right, bottom left corners. He is an 8 bit rendering of your mom. Choose from skin color, eye color, hair color/style, and name (optional). She will have a tear in her eye and look sad when you are on porn
+
+Settings page:
+
+- Customize your mom
+- Porn mode (on/off)
+- Dissapointed website list
+- Banned website list
+
+## Future features
+
+- Screen time (of website list)
+  - Timer in screen overlay
+  - Option to actually block websites after a certain period of time
+- Your Dad
+- Your waifu/husbandfu
+- Customize screen overlay
+- Mom health bar or some long term stats
+
 # Setup
 
 ## extension
@@ -20,6 +54,8 @@ Used for database and supabase edge functions.
 ## web
 
 Used for authentication but can also be the extension main page. Passes login authentication token to the extension with chrome messaging API.
+Publish website on Vercel
+No payment at first (just login)
 
 ### google identity api
 

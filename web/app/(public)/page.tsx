@@ -1,0 +1,29 @@
+import { Hero } from "@/components/ui/public-sections/Hero";
+import { Features } from "@/components/ui/public-sections/Features";
+import { CustomSolution } from "@/components/ui/public-sections/CustomSolution";
+import { Contact } from "@/components/ui/public-sections/Contact";
+import { CallToAction } from "@/components/ui/public-sections/CallToAction";
+import { Plans } from "@/components/ui/public-sections/Plans";
+import { DESCRIPTION_OF_HOMEPAGE_CONTENT } from "@/lib/siteConfig";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Wise Systems | AI-Powered Solutions",
+  description: DESCRIPTION_OF_HOMEPAGE_CONTENT,
+  alternates: {
+    canonical: "/",
+  },
+};
+
+export default function Public() {
+  return (
+    <>
+      <Hero variant="primary" />
+      <Features variant="secondary" />
+      <Plans variant="primary" />
+      <Contact variant="secondary" />
+      <CustomSolution variant="primary" />
+      <CallToAction variant="secondary" />
+    </>
+  );
+}

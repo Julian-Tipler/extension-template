@@ -10,6 +10,24 @@ async function init() {
   const draggableDiv = document.createElement("div");
   draggableDiv.id = "your-mom-draggable";
 
+  // Check if the current website is fuq.com
+  const currentHostname = window.location.hostname;
+  const isExampleWebsite =
+    currentHostname === "example.com" ||
+    currentHostname === "www.example.com" ||
+    currentHostname.endsWith(".example.com");
+
+  // Set the appropriate image based on the website
+  const imageUrl = isExampleWebsite
+    ? "url('https://opzgshmkqzcakfxroxnq.supabase.co/storage/v1/object/public/mom-sprites/mom-sad.png')"
+    : "url('https://opzgshmkqzcakfxroxnq.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png')";
+
+  draggableDiv.style.backgroundImage = imageUrl;
+  draggableDiv.style.backgroundSize = "contain";
+  draggableDiv.style.backgroundRepeat = "no-repeat";
+  draggableDiv.style.width = "94px"; // Match image width
+  draggableDiv.style.height = "96px"; // Match image height
+
   // Ensure no default positioning
   draggableDiv.style.top = "";
   draggableDiv.style.right = "";
