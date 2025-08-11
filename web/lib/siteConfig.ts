@@ -57,10 +57,10 @@ export const BEST_VALUE_TEXT = "Best Value"; // "Most popular"
 export const BOTTOM_PRICING_TEXT = "Get started now!";
 
 // CONTACT
-export const SERVICE = "SERVICE NAME";
+export const SERVICE = "Your Mom";
 
 // CUSTOM SOLUTION
-export const CUSTOM_SERVICE = "CUSTOM SERVICE NAME";
+export const CUSTOM_SERVICE = "Your Mom";
 
 export const IMAGE_ONE_URL = "https://picsum.photos/600/400";
 export const IMAGE_TWO_URL = "https://picsum.photos/600/400";

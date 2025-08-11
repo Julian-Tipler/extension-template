@@ -37,8 +37,8 @@ Settings page:
 ## Monetization
 
 - Free moms with basic styling
-- Each additional mon is 2.99
-- Buying a premium one unlocks more expressions
+- Each additional mon is 2.99 or 4.99
+- Buying a premium one unlocks more expressions (future, for now we just do happy and sad no animation)
 
 ### Implementation:
 

@@ -20,10 +20,21 @@ export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: {
     default: "Wise Systems | Next.js and Supabase SaaS Starter Kit",
-    template: "%s | Wise Systems"
+    template: "%s | Wise Systems",
   },
-  description: "Build powerful SaaS applications with our Next.js and Supabase starter kit. Ready-to-use authentication, payments, and UI components for modern web applications.",
-  keywords: ["Next.js", "Supabase", "React", "Web Development", "SaaS Template", "Starter Kit", "Authentication", "Stripe Integration", "TypeScript"],
+  description:
+    "Build powerful SaaS applications with our Next.js and Supabase starter kit. Ready-to-use authentication, payments, and UI components for modern web applications.",
+  keywords: [
+    "Next.js",
+    "Supabase",
+    "React",
+    "Web Development",
+    "SaaS Template",
+    "Starter Kit",
+    "Authentication",
+    "Stripe Integration",
+    "TypeScript",
+  ],
   authors: [{ name: "Wise Systems LLC", url: "https://wisepilot.io" }],
   creator: "Wise Systems LLC",
   publisher: "Wise Systems LLC",
@@ -40,7 +51,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: defaultUrl,
     title: "Wise Systems | Next.js and Supabase SaaS Starter Kit",
-    description: "Build powerful SaaS applications with our Next.js and Supabase starter kit. Ready-to-use authentication, payments, and UI components.",
+    description:
+      "Build powerful SaaS applications with our Next.js and Supabase starter kit. Ready-to-use authentication, payments, and UI components.",
     siteName: "Wise Systems",
     images: [
       {
@@ -54,7 +66,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Wise Systems | Next.js and Supabase SaaS Starter Kit",
-    description: "Build powerful SaaS applications with our Next.js and Supabase starter kit. Ready-to-use authentication, payments, and UI components.",
+    description:
+      "Build powerful SaaS applications with our Next.js and Supabase starter kit. Ready-to-use authentication, payments, and UI components.",
     creator: "@wisesystems",
     images: [`${defaultUrl}/twitter-image.png`],
   },
@@ -64,9 +77,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };

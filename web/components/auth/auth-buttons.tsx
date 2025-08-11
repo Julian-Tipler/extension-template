@@ -3,6 +3,7 @@ import { Button } from "../ui/Button";
 import { LogoutButton } from "./logout-button";
 import { useModal } from "@/app/context/ModalContext";
 import { useAuth } from "@/app/context/AuthProvider";
+import MySettingsButton from "../ui/MySettingsButton";
 
 export function AuthButtons() {
   const { showModal } = useModal();
@@ -15,6 +16,7 @@ export function AuthButtons() {
         <>
           Hey, {session.user.email}!
           <LogoutButton />
+          <MySettingsButton />
         </>
       ) : (
         <div className="flex gap-2">
@@ -35,5 +37,5 @@ export function AuthButtons() {
         </div>
       )}
     </div>
-  )
+  );
 }

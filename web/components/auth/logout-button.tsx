@@ -14,7 +14,7 @@ export function LogoutButton() {
   };
 
   return (
-    <Button size="sm" onClick={logout}>
+    <Button size="sm" onClick={logout} variant="outline">
       Logout
     </Button>
   );
