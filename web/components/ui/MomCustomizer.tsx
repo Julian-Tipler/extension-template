@@ -13,8 +13,8 @@ const moms = [
   },
   {
     happy:
-      "https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png",
-    sad: "https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-sad.png",
+      "https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-happy-blonde.png",
+    sad: "https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-sad-blonde.png",
   },
 ];
 

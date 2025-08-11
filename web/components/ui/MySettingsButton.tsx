@@ -5,7 +5,7 @@ import { Button } from "./Button";
 const MySettingsButton: React.FC = () => {
   return (
     <Button size="sm" variant="primary" asChild>
-      <Link href="/protected/settings">Settings</Link>
+      <Link href="/protected/settings/account">Settings</Link>
     </Button>
   );
 };

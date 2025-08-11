@@ -47,24 +47,10 @@ export default function AccountPage() {
             <h3 className="text-lg font-medium mb-4">Preferences</h3>
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <Checkbox id="marketing-emails" />
+                <Checkbox id="marketing-emails" defaultChecked />
                 <Label htmlFor="marketing-emails">
                   Receive marketing emails
                 </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox id="product-updates" />
-                <Label htmlFor="product-updates">
-                  Receive product update notifications
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox id="newsletter" defaultChecked />
-                <Label htmlFor="newsletter">Subscribe to newsletter</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox id="dark-mode" />
-                <Label htmlFor="dark-mode">Enable dark mode by default</Label>
               </div>
             </div>
           </div>

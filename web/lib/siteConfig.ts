@@ -1,7 +1,3 @@
-import { GraphIcon } from "@/components/ui/icons/GraphIcon";
-import { HappyEmojiIcon } from "@/components/ui/icons/HappyEmojiIcon";
-import { HeadsetIcon } from "@/components/ui/icons/HeadsetIcon";
-import { IconColor } from "@/components/ui/icons/IconColor";
 import { BookOpen, Clock, Code, Eye, Smile } from "lucide-react";
 
 // Centralized site config for brand name
@@ -11,7 +7,7 @@ export const SUPPORT_EMAIL = "tipler.julian@gmail.com";
 // Video: "How I did your mom"
 
 // HERO
-export const MAIN_TAGLINE = `"I'm not sad, I'm disappointed"`;
+export const MAIN_TAGLINE = `"I'm not sad, I'm disappointed :("`;
 
 export const SUB_TAGLINE = "Mother always knows best!";
 

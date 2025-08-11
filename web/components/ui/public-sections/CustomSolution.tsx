@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 import Section, { Variant } from "../layout/Section";
-import { CUSTOM_SERVICE, IMAGE_ONE_URL, IMAGE_TWO_URL } from "@/lib/siteConfig";
+import {
+  BRAND_NAME,
+  CUSTOM_SERVICE,
+  IMAGE_ONE_URL,
+  IMAGE_TWO_URL,
+} from "@/lib/siteConfig";
 import Image from "next/image";
 
 export const CustomSolution = ({
@@ -19,9 +24,9 @@ export const CustomSolution = ({
               Need a custom solution?
             </h2>
             <p className="mb-4 font-light">
-              We will work with you to build a custom {CUSTOM_SERVICE} that fits
-              your exact business needs. We&apos;ll provide ongoing support to
-              FILL IN HERE until it is perfect.
+              Wise systems builds custom products including AI solutions to
+              match your needs. If you like {BRAND_NAME}, our skilled engineers
+              can create a tailored solution for you.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4 mt-8 lg:order-first">

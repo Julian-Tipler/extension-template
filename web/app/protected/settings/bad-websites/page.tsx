@@ -16,10 +16,12 @@ export default function BadWebsites() {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [originalWebsites, setOriginalWebsites] = useState<string[]>([]);
+  const [hasChanges, setHasChanges] = useState(false);
 
-  // Fetch the user's blocked websites from Supabase
+  // Fetch the user's bad websites from Supabase
   useEffect(() => {
-    async function fetchBlockedWebsites() {
+    async function fetchBadWebsites() {
       if (!session?.user.id) return;
 
       try {
@@ -28,7 +30,7 @@ export default function BadWebsites() {
 
         const { data, error } = await supabase
           .from("users")
-          .select("blocked_websites")
+          .select("badWebsites")
           .eq("id", session.user.id)
           .single();
 
@@ -36,24 +38,51 @@ export default function BadWebsites() {
           throw error;
         }
 
-        // If the user has blocked websites, set them in state
-        if (data && data.blocked_websites) {
-          setWebsites(
-            Array.isArray(data.blocked_websites) ? data.blocked_websites : []
-          );
-        }
+        // If the user has bad websites, set them in state
+        const badWebsites = Array.isArray(data?.badWebsites)
+          ? data.badWebsites
+          : [];
+        setWebsites(badWebsites);
+        setOriginalWebsites(badWebsites);
+        setHasChanges(false);
       } catch (err: any) {
-        console.error("Error fetching blocked websites:", err);
-        setError(err.message || "Failed to load blocked websites");
+        console.error("Error fetching bad websites:", err);
+        setError(err.message || "Failed to load bad websites");
       } finally {
         setIsLoading(false);
       }
     }
 
     if (session && !loading) {
-      fetchBlockedWebsites();
+      fetchBadWebsites();
     }
   }, [session, loading]);
+
+  // Track changes to websites
+  useEffect(() => {
+    // Don't detect changes during initial loading
+    if (isLoading) return;
+
+    // Check if the current list differs from the original list
+    const hasChangesNow = () => {
+      // Different lengths means changes exist
+      if (websites.length !== originalWebsites.length) return true;
+
+      // Check if all websites from original list exist in current list
+      for (const site of originalWebsites) {
+        if (!websites.includes(site)) return true;
+      }
+
+      // Check if all websites from current list exist in original list
+      for (const site of websites) {
+        if (!originalWebsites.includes(site)) return true;
+      }
+
+      return false;
+    };
+
+    setHasChanges(hasChangesNow());
+  }, [websites, originalWebsites, isLoading]);
 
   // Handle adding a new website
   const handleAddWebsite = () => {
@@ -76,7 +105,7 @@ export default function BadWebsites() {
     );
 
     if (isDuplicate) {
-      setError("This website is already in your blocked list");
+      setError("This website is already in your bad list");
       return;
     }
 
@@ -84,6 +113,7 @@ export default function BadWebsites() {
     setWebsites((prev) => [...prev, websiteToAdd]);
     setNewWebsite("");
     setError(null);
+    setHasChanges(true);
   };
 
   // Handle removing a website
@@ -91,6 +121,7 @@ export default function BadWebsites() {
     setWebsites((prev) =>
       prev.filter((website) => website !== websiteToRemove)
     );
+    setHasChanges(true);
   };
 
   // Handle saving the websites to Supabase
@@ -106,8 +137,8 @@ export default function BadWebsites() {
       const { error } = await supabase
         .from("users")
         .update({
-          blocked_websites: websites,
-          updated_at: new Date().toISOString(),
+          badWebsites: websites,
+          updatedAt: new Date().toISOString(),
         })
         .eq("id", session.user.id);
 
@@ -116,14 +147,16 @@ export default function BadWebsites() {
       }
 
       setSaveSuccess(true);
+      setOriginalWebsites([...websites]);
+      setHasChanges(false);
 
       // Hide success message after 3 seconds
       setTimeout(() => {
         setSaveSuccess(false);
       }, 3000);
     } catch (err: any) {
-      console.error("Error saving blocked websites:", err);
-      setError(err.message || "Failed to save blocked websites");
+      console.error("Error saving bad websites:", err);
+      setError(err.message || "Failed to save bad websites");
     } finally {
       setIsSaving(false);
     }
@@ -141,16 +174,16 @@ export default function BadWebsites() {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-2xl font-bold">Blocked Websites</h2>
+          <h2 className="text-2xl font-bold">Bad Websites</h2>
           <p className="text-muted-foreground mt-2">
-            Manage your list of blocked websites
+            Manage your list of bad websites
           </p>
         </div>
         <div className="flex items-center justify-center h-60">
           <div className="text-center">
             <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-primary border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
             <p className="mt-2 text-sm text-muted-foreground">
-              Loading your blocked websites...
+              Loading your bad websites...
             </p>
           </div>
         </div>
@@ -161,7 +194,7 @@ export default function BadWebsites() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold">Blocked Websites</h2>
+        <h2 className="text-2xl font-bold">Bad Websites</h2>
         <p className="text-muted-foreground mt-2">
           Add and manage websites that make mom sad
         </p>
@@ -200,7 +233,7 @@ export default function BadWebsites() {
 
       {/* Website list */}
       <div className="border-t pt-6">
-        <h3 className="text-lg font-medium mb-4">Your blocked websites</h3>
+        <h3 className="text-lg font-medium mb-4">Your bad websites</h3>
 
         {websites.length === 0 ? (
           <div className="bg-muted/50 border rounded-lg p-6 text-center">
@@ -250,13 +283,13 @@ export default function BadWebsites() {
         <div>
           {saveSuccess && (
             <p className="text-sm text-green-600">
-              ✓ Your blocked websites have been saved successfully
+              ✓ Your bad websites have been saved successfully
             </p>
           )}
         </div>
         <Button
           onClick={handleSaveWebsites}
-          disabled={isSaving || websites.length === 0}
+          disabled={isSaving || !hasChanges}
           variant="primary"
         >
           {isSaving ? "Saving..." : "Save changes"}

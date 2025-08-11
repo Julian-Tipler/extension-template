@@ -6,7 +6,7 @@ your-mom is a chrome extension with a next.js website. It is an absolutely posit
 
 ## Marketing
 
-"I'm not mad, I'm dissapointed."
+"I'm not mad, I'm dissapointed"
 "Make your mom proud" (next to smiling pic)
 "Mom is always watching"
 "A mother knows best

@@ -16,6 +16,8 @@ export default function GoodWebsites() {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [originalWebsites, setOriginalWebsites] = useState<string[]>([]);
+  const [hasChanges, setHasChanges] = useState(false);
 
   // Fetch the user's good websites from Supabase
   useEffect(() => {
@@ -28,7 +30,7 @@ export default function GoodWebsites() {
 
         const { data, error } = await supabase
           .from("users")
-          .select("good_websites")
+          .select("goodWebsites")
           .eq("id", session.user.id)
           .single();
 
@@ -37,11 +39,12 @@ export default function GoodWebsites() {
         }
 
         // If the user has good websites, set them in state
-        if (data && data.good_websites) {
-          setWebsites(
-            Array.isArray(data.good_websites) ? data.good_websites : []
-          );
-        }
+        const goodWebsites = Array.isArray(data?.goodWebsites)
+          ? data.goodWebsites
+          : [];
+        setWebsites(goodWebsites);
+        setOriginalWebsites(goodWebsites);
+        setHasChanges(false);
       } catch (err: any) {
         console.error("Error fetching good websites:", err);
         setError(err.message || "Failed to load good websites");
@@ -54,6 +57,32 @@ export default function GoodWebsites() {
       fetchGoodWebsites();
     }
   }, [session, loading]);
+
+  // Track changes to websites
+  useEffect(() => {
+    // Don't detect changes during initial loading
+    if (isLoading) return;
+
+    // Check if the current list differs from the original list
+    const hasChangesNow = () => {
+      // Different lengths means changes exist
+      if (websites.length !== originalWebsites.length) return true;
+
+      // Check if all websites from original list exist in current list
+      for (const site of originalWebsites) {
+        if (!websites.includes(site)) return true;
+      }
+
+      // Check if all websites from current list exist in original list
+      for (const site of websites) {
+        if (!originalWebsites.includes(site)) return true;
+      }
+
+      return false;
+    };
+
+    setHasChanges(hasChangesNow());
+  }, [websites, originalWebsites, isLoading]);
 
   // Handle adding a new website
   const handleAddWebsite = () => {
@@ -84,6 +113,7 @@ export default function GoodWebsites() {
     setWebsites((prev) => [...prev, websiteToAdd]);
     setNewWebsite("");
     setError(null);
+    setHasChanges(true);
   };
 
   // Handle removing a website
@@ -91,6 +121,7 @@ export default function GoodWebsites() {
     setWebsites((prev) =>
       prev.filter((website) => website !== websiteToRemove)
     );
+    setHasChanges(true);
   };
 
   // Handle saving the websites to Supabase
@@ -106,8 +137,8 @@ export default function GoodWebsites() {
       const { error } = await supabase
         .from("users")
         .update({
-          good_websites: websites,
-          updated_at: new Date().toISOString(),
+          goodWebsites: websites,
+          updatedAt: new Date().toISOString(),
         })
         .eq("id", session.user.id);
 
@@ -116,6 +147,8 @@ export default function GoodWebsites() {
       }
 
       setSaveSuccess(true);
+      setOriginalWebsites([...websites]);
+      setHasChanges(false);
 
       // Hide success message after 3 seconds
       setTimeout(() => {
@@ -258,7 +291,7 @@ export default function GoodWebsites() {
         </div>
         <Button
           onClick={handleSaveWebsites}
-          disabled={isSaving || websites.length === 0}
+          disabled={isSaving || !hasChanges}
           variant="primary"
         >
           {isSaving ? "Saving..." : "Save changes"}

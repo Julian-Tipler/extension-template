@@ -1,8 +1,8 @@
 create table public.users (
   "id" uuid primary key references auth.users(id) on delete cascade,
   "email" text unique not null,
-  "good_websites" text[] default '{}'::text[],
-  "blocked_websites" text[] default '{}'::text[],
+  "goodWebsites" text[] default '{}'::text[],
+  "badWebsites" text[] default '{}'::text[],
   "createdAt" timestamptz default now(),
   "updatedAt" timestamptz default now()
 );
