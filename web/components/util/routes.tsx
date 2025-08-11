@@ -40,7 +40,7 @@ export type LinkItemProps = {
 };
 
 export const LINK_ITEMS: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome, href: "/" },
+  { name: "Moms", icon: FiHome, href: "/" },
   {
     name: "Contact",
     icon: FiPhone, // Phone/contact related icon

@@ -4,11 +4,13 @@ import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createStripeSessionAndRedirect } from "@/lib/createStripeSessionAndRedirect";
 import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/app/context/AuthProvider";
 
 function CheckoutStartContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const productId = searchParams.get("productId");
+  const { session, loading } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,6 +21,17 @@ function CheckoutStartContent() {
         setIsLoading(false);
         return;
       }
+
+      // Wait for authentication to complete
+      if (loading) return;
+
+      if (!session || !session.user) {
+        setError("Not authenticated");
+        setIsLoading(false);
+        return;
+      }
+
+      const userId = session.user.id;
 
       try {
         // Create Supabase client
@@ -43,8 +56,35 @@ function CheckoutStartContent() {
             // Free product - redirect to settings page
             router.push("/protected/settings/account");
           } else {
-            // Paid product - proceed with Stripe checkout
-            createStripeSessionAndRedirect(productId);
+            // Check if the user already owns this product
+            const { data: purchases, error: purchasesError } = await supabase
+              .from("purchases")
+              .select("id")
+              .eq("userId", userId)
+              .eq("productId", productId)
+              .eq("status", "active")
+              .single();
+
+            if (purchasesError && purchasesError.code !== "PGRST116") {
+              // PGRST116 is the "not found" error code
+              console.error(
+                "Error checking existing purchases:",
+                purchasesError
+              );
+              setError("Failed to check purchase history");
+              setIsLoading(false);
+              return;
+            }
+
+            if (purchases) {
+              // User already owns this product - redirect to settings page with a message
+              router.push(
+                "/protected/settings/account?message=You already own this product"
+              );
+            } else {
+              // Paid product - proceed with Stripe checkout
+              createStripeSessionAndRedirect(productId);
+            }
           }
         } else {
           setError("Product not found");
@@ -58,7 +98,7 @@ function CheckoutStartContent() {
     }
 
     checkPriceAndRedirect();
-  }, [productId, router]);
+  }, [productId, router, loading, session]);
 
   if (error) {
     return (
@@ -78,7 +118,7 @@ function CheckoutStartContent() {
   return (
     <div className="flex items-center justify-center h-screen">
       <h1 className="text-2xl font-bold">
-        {isLoading ? "Processing your request..." : "Redirecting..."}
+        {loading || isLoading ? "Processing your request..." : "Redirecting..."}
       </h1>
     </div>
   );

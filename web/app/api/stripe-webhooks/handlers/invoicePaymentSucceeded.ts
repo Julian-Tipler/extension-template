@@ -11,17 +11,12 @@ export const invoicePaymentSucceeded = async (data: any) => {
 
   // Get the period end from the invoice (in seconds, convert to ms)
   const periodEnd = data?.object?.lines?.data?.[0]?.period?.end;
-  const subscriptionExpiry = periodEnd
-    ? new Date(periodEnd * 1000).toISOString()
-    : null;
 
   // Update the subscription status to 'active', set lastPaymentAt and subscriptionExpiry
   const { error } = await supabaseAdmin
-    .from("subscriptions")
+    .from("purchases")
     .update({
       status: "active",
-      lastPaymentAt: new Date().toISOString(),
-      ...(subscriptionExpiry && { subscriptionExpiry }),
     })
     .eq("stripeSubscriptionId", stripeSubscriptionId);
 

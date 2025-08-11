@@ -22,10 +22,13 @@ export default function MomCustomizer() {
   const [error, setError] = useState<string | null>(null);
   const [momIndex, setMomIndex] = useState(0);
   const [expression, setExpression] = useState<"happy" | "sad">("happy");
+  const [isRandomMom, setIsRandomMom] = useState(false);
   const { session, loading: authLoading } = useAuth();
   const { showModal } = useModal();
 
-  const productId = moms[momIndex]?.id;
+  const productId = isRandomMom
+    ? process.env.NEXT_PUBLIC_RANDOM_MOM_STRIPE_PRICE_ID
+    : moms[momIndex]?.id;
   const redirectLink = `/protected/checkout-start?productId=${productId}`;
 
   useEffect(() => {
@@ -35,6 +38,7 @@ export default function MomCustomizer() {
         const { data, error } = await supabase
           .from("products")
           .select("id, assetUrl, name, price")
+          .eq("secret", false)
           .order("price", { ascending: true });
 
         if (error) throw error;
@@ -85,6 +89,13 @@ export default function MomCustomizer() {
         {loading ? (
           <div className="flex items-center justify-center h-32">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+          </div>
+        ) : isRandomMom ? (
+          <div className="flex flex-col items-center justify-center h-32 w-32">
+            <div className="text-6xl mb-2 animate-bounce">🎲</div>
+            <div className="text-sm text-center text-purple-600 font-medium">
+              May unlock secret moms!
+            </div>
           </div>
         ) : moms.length > 0 ? (
           <Image
@@ -148,12 +159,33 @@ export default function MomCustomizer() {
           </div>
         ) : (
           <div className="grid grid-cols-3 gap-3 w-full">
+            {/* Random Mom Button */}
+            <button
+              onClick={() => {
+                setIsRandomMom(true);
+                setMomIndex(-1);
+              }}
+              className={`flex flex-col items-center p-3 rounded-lg transition-all ${
+                isRandomMom
+                  ? "bg-purple-100 ring-2 ring-purple-500"
+                  : "bg-gray-100 hover:bg-gray-200"
+              }`}
+            >
+              <div className="w-12 h-12 flex items-center justify-center bg-gray-200 rounded-full mb-2 text-xl">
+                🎲
+              </div>
+              <span className="text-xs font-medium">Mystery Mom</span>
+            </button>
+
             {moms.map((mom, i) => (
               <button
                 key={mom.id}
-                onClick={() => setMomIndex(i)}
+                onClick={() => {
+                  setMomIndex(i);
+                  setIsRandomMom(false);
+                }}
                 className={`flex flex-col items-center p-3 rounded-lg transition-all ${
-                  momIndex === i
+                  momIndex === i && !isRandomMom
                     ? "bg-purple-100 ring-2 ring-purple-500"
                     : "bg-gray-100 hover:bg-gray-200"
                 }`}
@@ -189,16 +221,20 @@ export default function MomCustomizer() {
             }
           }}
         >
-          Get {BRAND_NAME}
-          {moms[momIndex]?.price
+          Get {isRandomMom ? "Random" : BRAND_NAME}
+          {!isRandomMom && moms[momIndex]?.price
             ? ` - $${(moms[momIndex].price / 100).toFixed(2)}`
             : "!"}
         </Button>
         <div className="h-5 flex items-center justify-center">
-          {moms.length > 0 &&
-          moms[momIndex] &&
-          typeof moms[momIndex].price === "number" &&
-          moms[momIndex].price > 0 ? (
+          {isRandomMom ? (
+            <p className="text-xs text-gray-500 mt-1">
+              The only way to unlock secret Moms!
+            </p>
+          ) : moms.length > 0 &&
+            moms[momIndex] &&
+            typeof moms[momIndex].price === "number" &&
+            moms[momIndex].price > 0 ? (
             <p className="text-xs text-gray-500 mt-1">One time purchase!</p>
           ) : (
             <p className="text-xs text-gray-500 mt-1">

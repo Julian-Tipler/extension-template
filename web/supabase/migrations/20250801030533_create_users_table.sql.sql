@@ -3,6 +3,7 @@ create table public.users (
   "email" text unique not null,
   "goodWebsites" text[] default '{}'::text[],
   "badWebsites" text[] default '{}'::text[],
+  "selectedProduct" uuid references public.products(id) on delete set null,
   "createdAt" timestamptz default now(),
   "updatedAt" timestamptz default now()
 );

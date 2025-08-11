@@ -21,34 +21,34 @@ import { IconColor } from "../ui/icons/IconColor";
 // Function to assign free products to users
 async function assignFreeProductsToUser(userId: string) {
   const supabase = createClient();
-  
+
   // 1. Get all free products
   const { data: freeProducts, error: productsError } = await supabase
     .from("products")
     .select("id")
     .eq("price", 0);
-    
+
   if (productsError || !freeProducts?.length) return;
-  
+
   // 2. Check if user already has these products
   const { data: existingPurchases } = await supabase
     .from("purchases")
     .select("productId")
     .eq("userId", userId);
-    
-  const existingProductIds = existingPurchases?.map(p => p.productId) || [];
-  
+
+  const existingProductIds = existingPurchases?.map((p) => p.productId) || [];
+
   // 3. Create purchase records for products the user doesn't already have
   const newPurchases = freeProducts
-    .filter(product => !existingProductIds.includes(product.id))
-    .map(product => ({
+    .filter((product) => !existingProductIds.includes(product.id))
+    .map((product) => ({
       userId,
       productId: product.id,
       status: "active",
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }));
-    
+
   if (newPurchases.length) {
     await supabase.from("purchases").insert(newPurchases);
   }
@@ -78,7 +78,7 @@ export function LoginForm({
         password,
       });
       if (error) throw error;
-      
+
       // Assign any new free products to the user
       if (data?.user) {
         await assignFreeProductsToUser(data.user.id);

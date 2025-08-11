@@ -9,7 +9,7 @@ your-mom is a chrome extension with a next.js website. It is an absolutely posit
 "I'm not mad, I'm dissapointed"
 "Make your mom proud" (next to smiling pic)
 "Mom is always watching"
-"A mother knows best
+"A mother knows best"
 
 ## Features
 
@@ -37,6 +37,7 @@ Settings page:
 
 ## Monetization
 
+- GATCHA (do it)
 - Free moms with basic styling
 - Each additional mon is 2.99 or 4.99
 - Buying a premium one unlocks more expressions (future, for now we just do happy and sad no animation)

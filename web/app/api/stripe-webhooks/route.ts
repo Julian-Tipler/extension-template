@@ -10,6 +10,7 @@ import { headers } from "next/headers";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: NextRequest) {
+  console.log("Received Stripe webhook request");
   let event: Stripe.Event;
 
   try {
@@ -38,9 +39,9 @@ export async function POST(req: NextRequest) {
       // Create new subscription row
       await checkoutSessionCompleted(data);
       break;
-    case "invoice.payment_succeeded":
-      await invoicePaymentSucceeded(data);
-      break;
+    // case "invoice.payment_succeeded":
+    //   await checkoutSessionCompleted(data);
+    //   break;
     case "customer.subscription.deleted":
       await customerSubscriptionDeleted(data);
       break;

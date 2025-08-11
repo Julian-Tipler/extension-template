@@ -37,8 +37,10 @@ export const LinkItem = ({
         aria-label={ariaLabel || name}
         title={title || name}
       >
-        {Icon && <Icon className="inline-block mr-2" />}
-        {name}
+        <span className="flex items-center">
+          {Icon && <Icon className="mr-2" />}
+          {name}
+        </span>
       </LinkComponent>
     </li>
   );
