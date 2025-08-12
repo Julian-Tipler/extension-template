@@ -26,19 +26,59 @@ export async function POST(request: Request) {
       );
     }
 
-    // Fetch the product from the database to get the stripePriceId
-    const { data: product, error: productError } = await supabase
-      .from("products")
-      .select("stripePriceId")
-      .eq("id", productId)
-      .single();
+    let stripePriceId: string;
 
-    if (productError || !product) {
-      console.error("Error fetching product:", productError);
-      return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    // if "random" id is used, use the environment variable for the price ID
+    if (productId === process.env.NEXT_PUBLIC_RANDOM_MOM_ID) {
+      const priceIdEnv = process.env.NEXT_PUBLIC_RANDOM_MOM_STRIPE_PRICE_ID;
+      if (!priceIdEnv) {
+        return NextResponse.json(
+          { error: "Missing Stripe price ID configuration" },
+          { status: 500 }
+        );
+      }
+      stripePriceId = priceIdEnv;
+    } else {
+      // Normal product flow
+      const { data: product, error } = await supabase
+        .from("products")
+        .select("price, stripePriceId")
+        .eq("id", productId)
+        .single();
+
+      if (error || !product) {
+        console.error("Error fetching product:", error);
+        return NextResponse.json(
+          { error: "Product not found" },
+          { status: 404 }
+        );
+      }
+
+      if (product?.price === 0) {
+        return NextResponse.json({
+          success: true,
+          isFreeProduct: true,
+        });
+      }
+
+      // Check if the user already owns this product
+      const { data: purchases, error: purchasesError } = await supabase
+        .from("purchases")
+        .select("id")
+        .eq("userId", id)
+        .eq("productId", productId)
+        .single();
+
+      // If user already owns this product, return with alreadyOwnsProduct flag
+      if (purchases && purchases.id) {
+        return NextResponse.json({
+          success: true,
+          alreadyOwnsProduct: true,
+        });
+      }
+
+      stripePriceId = product?.stripePriceId || "";
     }
-
-    const stripePriceId = product.stripePriceId;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],

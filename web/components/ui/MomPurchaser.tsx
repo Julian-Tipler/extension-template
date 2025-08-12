@@ -16,18 +16,18 @@ type Mom = {
   stripePriceId?: string;
 };
 
-export default function MomCustomizer() {
+export default function MomPurchaser() {
   const [moms, setMoms] = useState<Mom[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [momIndex, setMomIndex] = useState(0);
   const [expression, setExpression] = useState<"happy" | "sad">("happy");
   const [isRandomMom, setIsRandomMom] = useState(false);
-  const { session, loading: authLoading } = useAuth();
+  const { session } = useAuth();
   const { showModal } = useModal();
 
   const productId = isRandomMom
-    ? process.env.NEXT_PUBLIC_RANDOM_MOM_STRIPE_PRICE_ID
+    ? process.env.NEXT_PUBLIC_RANDOM_MOM_ID
     : moms[momIndex]?.id;
   const redirectLink = `/protected/checkout-start?productId=${productId}`;
 

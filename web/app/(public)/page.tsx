@@ -6,6 +6,7 @@ import { CallToAction } from "@/components/ui/public-sections/CallToAction";
 import { Plans } from "@/components/ui/public-sections/Plans";
 import { DESCRIPTION_OF_HOMEPAGE_CONTENT } from "@/lib/siteConfig";
 import type { Metadata } from "next";
+import SecretMoms from "@/components/ui/public-sections/SecretMoms";
 
 export const metadata: Metadata = {
   title: "Wise Systems | AI-Powered Solutions",
@@ -20,6 +21,7 @@ export default function Public() {
     <>
       <Hero variant="primary" />
       <Features variant="secondary" />
+      <SecretMoms />
       <Plans variant="primary" />
       <Contact variant="secondary" />
       <CustomSolution variant="primary" />

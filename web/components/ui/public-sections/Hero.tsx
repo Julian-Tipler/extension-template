@@ -7,7 +7,7 @@ import Spacer from "../Spacer";
 import { SupportingText } from "../text/SupportingText";
 import { TitleText } from "../text/TitleText";
 import { IconColor } from "../icons/IconColor";
-import MomCustomizer from "../MomCustomizer";
+import MomPurchaser from "../MomPurchaser";
 
 export const Hero = ({ variant = "primary" }: { variant?: Variant }) => {
   return (
@@ -37,7 +37,7 @@ export const Hero = ({ variant = "primary" }: { variant?: Variant }) => {
             No login required!
           </p> */}
         </div>
-        <MomCustomizer />
+        <MomPurchaser />
       </div>
     </Section>
   );

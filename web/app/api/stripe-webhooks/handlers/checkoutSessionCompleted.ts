@@ -41,8 +41,9 @@ async function selectRandomMom(userId: string): Promise<Product | null> {
     const { data: products, error: productsError } = await supabaseAdmin
       .from("products")
       .select("id, randomChance")
-      .not("randomChance", "is", null)
       .gt("randomChance", 0);
+
+    console.log("products checked", products);
 
     if (productsError || !products || products.length === 0) {
       console.error(
@@ -84,7 +85,7 @@ async function selectRandomMom(userId: string): Promise<Product | null> {
         break;
       }
     }
-
+    console.log("about to retur", selectedProduct);
     return selectedProduct;
   } catch (error) {
     console.error("Error in selectRandomMom:", error);
@@ -144,9 +145,8 @@ export const checkoutSessionCompleted = async (data: any) => {
           `Random mom selected for user ${userId}: ${actualProductId}`
         );
       } else {
-        console.log(
-          `Failed to select random mom for user ${userId}, using original product`
-        );
+        console.error(`Failed to select random mom for user ${userId}`);
+        throw new Error("Failed to select random mom product");
       }
     }
 
