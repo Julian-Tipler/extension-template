@@ -121,7 +121,7 @@ export default function SecretMoms() {
           </h3>
           <p className="text-gray-700 mb-4">
             Try your luck with the Random Mom option for a chance to get rare
-            secret Moms like Joker Mom and Robot Mom!
+            secret Moms!
           </p>
 
           <div className="flex justify-center">
