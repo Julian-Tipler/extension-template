@@ -30,6 +30,32 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow when dragging */
 }
 
+/* Pulsing blue overlay for sad mom */
+#your-mom-draggable.sad {
+  animation: bluePulse 3s infinite ease-in-out;
+  position: relative;
+  /* Add a subtle padding to make room for the glow without clipping */
+  padding: 2px;
+  /* Create space for the blur to extend outward */
+  margin: 5px;
+}
+
+/* Blue pulse animation */
+@keyframes bluePulse {
+  0% {
+    box-shadow: 0 0 12px 8px rgba(66, 133, 244, 0.2); /* Light blue glow with blur */
+    filter: drop-shadow(0 0 8px rgba(66, 133, 244, 0.3));
+  }
+  50% {
+    box-shadow: 0 0 25px 15px rgba(66, 133, 244, 0.35); /* Medium blue with stronger blur */
+    filter: drop-shadow(0 0 15px rgba(66, 133, 244, 0.4));
+  }
+  100% {
+    box-shadow: 0 0 12px 8px rgba(66, 133, 244, 0.2); /* Back to light blue with blur */
+    filter: drop-shadow(0 0 8px rgba(66, 133, 244, 0.3));
+  }
+}
+
 /* Quadrant overlays */
 .quadrant-overlay {
   position: fixed;

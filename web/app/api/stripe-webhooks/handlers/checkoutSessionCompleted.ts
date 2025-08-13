@@ -116,38 +116,36 @@ export const checkoutSessionCompleted = async (data: any) => {
       console.error("Error fetching user", userError);
       throw new Error("Error fetching user");
     }
+    let purchasedProduct: any;
 
-    // Fetch product from public.products
-    const { data: product, error: productError } = await supabaseAdmin
-      .from("products")
-      .select("*")
-      .eq("stripePriceId", data.object.metadata.stripePriceId)
-      .single();
-
-    if (productError) {
-      console.error("Error fetching product", productError);
-      throw new Error("Error fetching product");
-    }
-
-    // Check if this is the random mom product
-    const isRandomMomProduct =
-      product.stripePriceId ===
-      process.env.NEXT_PUBLIC_RANDOM_MOM_STRIPE_PRICE_ID;
-
-    let actualProductId = product.id;
-
-    // If this is the random mom product, select a random mom first
-    if (isRandomMomProduct) {
+    // select random mom
+    if (
+      data?.object?.metadata?.stripePriceId ===
+      process.env.NEXT_PUBLIC_RANDOM_MOM_STRIPE_PRICE_ID
+    ) {
       const selectedRandomMom = await selectRandomMom(userId);
       if (selectedRandomMom) {
-        actualProductId = selectedRandomMom.id;
+        purchasedProduct = selectedRandomMom.id;
         console.log(
-          `Random mom selected for user ${userId}: ${actualProductId}`
+          `Random mom selected for user ${userId}: ${purchasedProduct}`
         );
       } else {
         console.error(`Failed to select random mom for user ${userId}`);
         throw new Error("Failed to select random mom product");
       }
+    } else {
+      // select purchased mom
+      const { data: product, error: productError } = await supabaseAdmin
+        .from("products")
+        .select("*")
+        .eq("stripePriceId", data.object.metadata.stripePriceId)
+        .single();
+
+      if (productError) {
+        console.error("Error fetching product", productError);
+        throw new Error("Error fetching product");
+      }
+      purchasedProduct = product.id;
     }
 
     // Create a new purchase record with either the original product or the randomly selected one
@@ -155,7 +153,7 @@ export const checkoutSessionCompleted = async (data: any) => {
       .from("purchases")
       .insert({
         userId: user.id, // link purchase to this user
-        productId: actualProductId, // This could be the random mom product
+        productId: purchasedProduct, // This could be the random mom product
         stripePurchaseId: data.object.id,
         status: "active", // Set status to active
       })
@@ -170,21 +168,11 @@ export const checkoutSessionCompleted = async (data: any) => {
     }
     console.log("New Purchase", newPurchase);
 
-    // Set the selected product as the user's active mom
-    if (isRandomMomProduct) {
-      const { error: updateError } = await supabaseAdmin
-        .from("users")
-        .update({ selectedProduct: actualProductId })
-        .eq("id", userId);
-
-      if (updateError) {
-        console.error("Error updating user's selected product:", updateError);
-      } else {
-        console.log(
-          `User ${userId}'s selected product updated to: ${actualProductId}`
-        );
-      }
-    }
+    // Set user's selectedProduct to the purchased product id
+    await supabaseAdmin
+      .from("users")
+      .update({ selectedProduct: purchasedProduct })
+      .eq("id", user.id);
 
     // TODO: Send thank-you email to the user here
     // Example:

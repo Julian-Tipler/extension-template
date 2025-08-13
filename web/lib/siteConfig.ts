@@ -7,9 +7,9 @@ export const SUPPORT_EMAIL = "tipler.julian@gmail.com";
 // Video: "How I did your mom"
 
 // HERO
-export const MAIN_TAGLINE = `"I'm not sad, I'm disappointed :("`;
+export const MAIN_TAGLINE = `Mom keeps you on task!`;
 
-export const SUB_TAGLINE = "Mother always knows best!";
+export const SUB_TAGLINE = `"I'm not sad, I'm disappointed"`;
 
 export const USE_CASES = [
   "product discovery",

@@ -14,14 +14,21 @@ export const createStripeSessionAndRedirect = async (productId: string) => {
     if (data.isFreeProduct) {
       // Redirect to settings page for free products
       window.location.href =
-        "/protected/settings/account?message=You already own this product";
+        "/protected/settings/account?message=You own this free Mom";
       return;
     }
 
     if (data.alreadyOwnsProduct) {
       // Handle case where user already owns the product
       window.location.href =
-        "/protected/settings/account?message=You already own this product";
+        "/protected/settings/account?message=You already own this Mom";
+      return;
+    }
+
+    if (data.alreadyOwnsAllMoms) {
+      // Handle case where user already owns all moms
+      window.location.href =
+        "/protected/settings/account?message=You already own all Moms! Congratulations! More moms are in development...";
       return;
     }
 

@@ -7,6 +7,7 @@ import { useModal } from "@/app/context/ModalContext";
 import { Button } from "../Button";
 import { createMomUrl } from "@/lib/create-mom-url";
 import { useAuth } from "@/app/context/AuthProvider";
+import Spacer from "../Spacer";
 
 type SecretMom = {
   id: string;
@@ -29,8 +30,8 @@ export default function SecretMoms() {
           .from("products")
           .select("id, assetUrl, name")
           .eq("secret", true)
-          .eq("name", "Joker Mom") // For now, just fetch Joker Mom as specified
-          .limit(1);
+          .in("name", ["Joker Mom", "Robot Mom"]) // Fetch both Joker Mom and Robot Mom
+          .limit(2);
 
         if (error) throw error;
 
@@ -67,41 +68,51 @@ export default function SecretMoms() {
           Secret Moms Await!
         </h2>
         <p className="text-gray-600">
-          Discover exclusive moms only available through the Secret Mom option!
+          Discover exclusive moms only available through the Random Mom option!
         </p>
       </div>
 
       <div className="relative bg-gradient-to-r from-purple-100 to-pink-100 p-6 rounded-lg shadow-lg border border-purple-200">
         {/* Mystery container with blurred content */}
-        <div className="flex justify-center relative">
-          {/* Partially blurred mom image - adjusted visibility */}
-          <div className="relative w-32 h-32 filter blur-[6px] animate-pulse">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Image
-                src={createMomUrl(secretMoms[0].assetUrl, "happy")}
-                alt="Secret Mom"
-                width={128}
-                height={128}
-                className="object-contain opacity-75"
-                style={{ imageRendering: "pixelated" }}
-              />
+        <div className="flex justify-center space-x-8 relative">
+          {secretMoms.map((mom, index) => (
+            <div key={mom.id} className="relative">
+              {/* Partially blurred mom image - adjusted visibility */}
+              <div className="relative w-32 h-32 filter blur-[6px] animate-pulse">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Image
+                    src={createMomUrl(mom.assetUrl, "happy")}
+                    alt={`Secret Mom - ${mom.name}`}
+                    width={128}
+                    height={128}
+                    className="object-contain opacity-75"
+                    style={{ imageRendering: "pixelated" }}
+                  />
+                </div>
+              </div>
+
+              {/* Question mark overlay */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-7xl text-purple-700 font-bold opacity-80">
+                  ?
+                </span>
+              </div>
+
+              {/* Sparkle effects */}
+              <div
+                className="absolute -top-2 -right-2 text-2xl animate-bounce"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                ✨
+              </div>
+              <div
+                className="absolute -bottom-2 -left-2 text-2xl animate-bounce"
+                style={{ animationDelay: `${index * 0.2 + 0.1}s` }}
+              >
+                ✨
+              </div>
             </div>
-          </div>
-
-          {/* Question mark overlay */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-7xl text-purple-700 font-bold opacity-80">
-              ?
-            </span>
-          </div>
-
-          {/* Sparkle effects */}
-          <div className="absolute -top-2 -right-2 text-2xl animate-bounce">
-            ✨
-          </div>
-          <div className="absolute -bottom-2 -left-2 text-2xl animate-bounce delay-75">
-            ✨
-          </div>
+          ))}
         </div>
 
         <div className="mt-6 text-center">
@@ -109,8 +120,8 @@ export default function SecretMoms() {
             Unlock the Mystery!
           </h3>
           <p className="text-gray-700 mb-4">
-            Try your luck with the Secret Mom option for a chance to get rare
-            secret Moms!
+            Try your luck with the Random Mom option for a chance to get rare
+            secret Moms like Joker Mom and Robot Mom!
           </p>
 
           <div className="flex justify-center">
@@ -128,6 +139,7 @@ export default function SecretMoms() {
           </p>
         </div>
       </div>
+      <Spacer size="x-large" />
     </div>
   );
 }

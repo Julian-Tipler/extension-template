@@ -219,17 +219,19 @@ export default function MomPurchaser() {
             } else {
               window.location.href = redirectLink;
             }
-          }}
-        >
-          Get {isRandomMom ? "Random" : BRAND_NAME}
-          {!isRandomMom && moms[momIndex]?.price
+            }}
+          >
+            Get {isRandomMom ? "Random" : BRAND_NAME}
+            {isRandomMom
+            ? ` - $${(Number(process.env.NEXT_PUBLIC_RANDOM_MOM_PRICE ?? 0) / 100).toFixed(2)}`
+            : moms[momIndex]?.price
             ? ` - $${(moms[momIndex].price / 100).toFixed(2)}`
             : "!"}
         </Button>
         <div className="h-5 flex items-center justify-center">
           {isRandomMom ? (
             <p className="text-xs text-gray-500 mt-1">
-              The only way to unlock secret Moms!
+              Win a <span className="text-orange-500">premium</span> or <span className="text-tertiary">secret</span> mom you don't own!
             </p>
           ) : moms.length > 0 &&
             moms[momIndex] &&

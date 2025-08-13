@@ -22,7 +22,6 @@ export default function Public() {
       <Hero variant="primary" />
       <Features variant="secondary" />
       <SecretMoms />
-      <Plans variant="primary" />
       <Contact variant="secondary" />
       <CustomSolution variant="primary" />
       <CallToAction variant="secondary" />

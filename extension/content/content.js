@@ -1,5 +1,5 @@
 import "./content.css";
-console.log("content 1");
+console.log("content 2");
 
 window.addEventListener("load", () => {
   init();
@@ -19,14 +19,19 @@ async function init() {
 
   // Set the appropriate image based on the website
   const imageUrl = isExampleWebsite
-    ? "url('https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-sad.png')"
-    : "url('https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-happy.png')";
+    ? "url('https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-brunette-sad.png')"
+    : "url('https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-brunette-happy.png')";
 
   draggableDiv.style.backgroundImage = imageUrl;
   draggableDiv.style.backgroundSize = "contain";
   draggableDiv.style.backgroundRepeat = "no-repeat";
   draggableDiv.style.width = "94px"; // Match image width
   draggableDiv.style.height = "96px"; // Match image height
+  
+  // Add 'sad' class to activate the blue pulse effect when on example.com
+  if (isExampleWebsite) {
+    draggableDiv.classList.add('sad');
+  }
 
   // Ensure no default positioning
   draggableDiv.style.top = "";

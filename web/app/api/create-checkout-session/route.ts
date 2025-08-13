@@ -30,6 +30,53 @@ export async function POST(request: Request) {
 
     // if "random" id is used, use the environment variable for the price ID
     if (productId === process.env.NEXT_PUBLIC_RANDOM_MOM_ID) {
+      // First, check if the user already owns all the moms
+      const { data: allProducts, error: productsError } = await supabase
+        .from("products")
+        .select("id")
+        .eq("active", true);
+      console.log("allProducts", allProducts);
+
+      if (productsError) {
+        console.error("Error fetching products:", productsError);
+        return NextResponse.json(
+          { error: "Failed to check product ownership" },
+          { status: 500 }
+        );
+      }
+
+      const { data: userPurchases, error: purchasesError } = await supabase
+        .from("purchases")
+        .select("productId")
+        .eq("userId", id);
+
+      if (purchasesError) {
+        console.error("Error fetching user purchases:", purchasesError);
+        return NextResponse.json(
+          { error: "Failed to check product ownership" },
+          { status: 500 }
+        );
+      }
+
+      // Create a Set of purchased product IDs for faster lookups
+      const purchasedProductIds = new Set(
+        userPurchases?.map((p) => p.productId) || []
+      );
+      console.log("Purchased Product IDs:", purchasedProductIds);
+      // Check if user has purchased all available products
+      const allProductsOwned = allProducts?.every((product) =>
+        purchasedProductIds.has(product.id)
+      );
+      console.log("All Products Owned:", allProductsOwned);
+
+      if (allProductsOwned) {
+        return NextResponse.json({
+          success: true,
+          alreadyOwnsAllMoms: true,
+        });
+      }
+
+      // If not all products are owned, continue with random mom selection
       const priceIdEnv = process.env.NEXT_PUBLIC_RANDOM_MOM_STRIPE_PRICE_ID;
       if (!priceIdEnv) {
         return NextResponse.json(
