@@ -1,42 +1,101 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
+  width: 360px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.app {
+  background-color: #fff1d6;
+  color: #444;
+  font-family: "Inter", system-ui, sans-serif;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  height: 64px;
+  width: 64px;
+  margin: 0 auto;
+  display: block;
+  transition: transform 0.3s ease;
 }
 
-@keyframes logo-spin {
+.logo:hover {
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(10px);
   }
   to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .card {
-  padding: 2em;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1rem;
+  animation: fadeIn 0.4s ease forwards;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.read-the-docs {
-  color: #888;
+.section-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: #ff934f;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #f58237;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: #f1f1f1;
+  color: #444;
+}
+
+.btn-secondary:hover {
+  background-color: #e5e5e5;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background-color: #fff8ec;
+}
+
+.container {
+  padding: 1rem;
 }

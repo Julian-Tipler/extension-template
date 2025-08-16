@@ -5,7 +5,6 @@ import {
   redirect,
 } from "react-router-dom";
 import { Login } from "./views/Login";
-import { supabase } from "./clients/supabase-client";
 import { Splash } from "./views/Splash";
 
 const App = () => {
@@ -42,27 +41,20 @@ const App = () => {
 export default App;
 
 async function protectedLoader() {
-  const sessionToken = await isAuthenticated();
-  console.log(sessionToken);
-  if (!sessionToken) {
-    return redirect("/login");
-  }
-
-  const auth = await supabase.auth.getUser(sessionToken);
-  if (!auth.data?.user) {
-    return redirect("/login");
-  }
-  return { sessionToken };
-}
-
-const isAuthenticated = async (): Promise<string | false> => {
-  return new Promise((resolve) => {
-    chrome.storage.local.get(["wiseFlashcardsSessionToken"], function(result) {
-      if (result.wiseFlashcardsSessionToken) {
-        resolve(result.wiseFlashcardsSessionToken);
-      } else {
-        resolve(false);
-      }
+  try {
+    // Check for auth state in storage
+    const yourMomSessionToken = await new Promise((resolve) => {
+      chrome.storage.local.get(["yourMomSessionToken"], function(result) {
+        resolve(result.yourMomSessionToken);
+      });
     });
-  });
-};
+
+    if (!yourMomSessionToken) {
+      return redirect("/login");
+    }
+    return null;
+  } catch (error) {
+    console.error("Auth error:", error);
+    return redirect("/login");
+  }
+}

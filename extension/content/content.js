@@ -1,9 +1,110 @@
 import "./content.css";
-console.log("content 2");
+import { createMomUrl } from "../utils/create-mom-url.js";
+import { getSupabaseClient } from "../utils/get-supabase-client.js";
+console.log("content 5");
 
 window.addEventListener("load", () => {
   init();
 });
+
+// Function to get user data from storage
+async function getUserTokenFromStorage() {
+  try {
+    // First try to get from local storage
+    const yourMomSessionToken = await new Promise((resolve) => {
+      chrome.storage.local.get(["yourMomSessionToken"], function(data) {
+        resolve(data.yourMomSessionToken);
+      });
+    });
+    if (yourMomSessionToken) {
+      return yourMomSessionToken;
+    }
+  } catch (error) {
+    console.error("Error getting user data:", error);
+    return null;
+  }
+}
+
+// Function to decode JWT token
+function decodeJWT(token) {
+  try {
+    // JWT token consists of three parts separated by dots
+    const parts = token.split(".");
+    if (parts.length !== 3) {
+      throw new Error("Invalid JWT token format");
+    }
+
+    // The payload is the second part (index 1)
+    const payload = parts[1];
+
+    // Base64Url decode and parse as JSON
+    const decoded = JSON.parse(
+      atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
+    );
+    return decoded;
+  } catch (error) {
+    console.error("Error decoding JWT:", error);
+    return null;
+  }
+}
+
+// Function to fetch user data from Supabase using the auth token
+async function fetchUserFromSupabase(authToken) {
+  if (!authToken) {
+    console.error("No auth token available");
+    return null;
+  }
+
+  try {
+    // Decode the JWT to get the user ID
+    const decodedToken = decodeJWT(authToken);
+    if (!decodedToken) {
+      console.error("Failed to decode token");
+      return null;
+    }
+
+    const userId = decodedToken?.sub; // 'sub' is the standard claim for the subject (user ID)
+
+    if (!userId) {
+      console.error("Could not extract user ID from token");
+      return null;
+    }
+
+    const supabase = await getSupabaseClient();
+    // Fetch user data
+    const { data: userData, error: userError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", userId)
+      .single();
+
+    if (userError) {
+      console.error("Error fetching user data:", userError);
+      return null;
+    }
+
+    // If user has a selectedProduct, fetch the product details
+    let productData = null;
+    if (userData?.selectedProduct) {
+      const { data: prod, error: prodError } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", userData.selectedProduct)
+        .single();
+      if (!prodError) {
+        productData = prod;
+      }
+    }
+
+    // Cache the user data in local storage for future use
+    chrome.storage.local.set({ userProfile: userData });
+
+    return { userData, productData };
+  } catch (error) {
+    console.error("Error fetching user from Supabase:", error);
+    return null;
+  }
+}
 
 async function init() {
   // Create the draggable div
@@ -16,21 +117,65 @@ async function init() {
     currentHostname === "example.com" ||
     currentHostname === "www.example.com" ||
     currentHostname.endsWith(".example.com");
+  // Get the user's auth token from storage
+  const authToken = await getUserTokenFromStorage();
 
-  // Set the appropriate image based on the website
-  const imageUrl = isExampleWebsite
-    ? "url('https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-brunette-sad.png')"
-    : "url('https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-brunette-happy.png')";
+  // If no cached profile or if we have an auth token but no profile, fetch from API
+  let userData;
+  let productData;
+  if (authToken) {
+    const result = await fetchUserFromSupabase(authToken);
+    if (result) {
+      userData = result.userData;
+      productData = result.productData;
+    }
+  }
+  console.log("userData", userData);
+  console.log("productData", productData);
+
+  // Determine the correct image URL
+  const expression = isExampleWebsite ? "sad" : "happy";
+  const momAssetUrl = productData?.assetUrl;
+
+  // Log raw URL for debugging
+  const rawImageUrl = momAssetUrl ? createMomUrl(momAssetUrl, expression) : "";
+  console.log("Raw image URL:", rawImageUrl);
+
+  const imageUrl = momAssetUrl ? `url('${rawImageUrl}')` : "";
+
+  console.log("imageUrl", imageUrl);
+  // Notify background service about mom state for potential tracking
+  chrome.runtime.sendMessage({ type: "UPDATE_MOM_STATE", state: expression });
 
   draggableDiv.style.backgroundImage = imageUrl;
   draggableDiv.style.backgroundSize = "contain";
   draggableDiv.style.backgroundRepeat = "no-repeat";
   draggableDiv.style.width = "94px"; // Match image width
   draggableDiv.style.height = "96px"; // Match image height
-  
+
+  // Listen for user data updates
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === "USER_DATA_UPDATED" && message.userData) {
+      userData = message.userData;
+
+      // Update the mom image if needed
+      if (userData?.selectedProduct?.assetUrl) {
+        const newMomAssetUrl = userData.selectedProduct.assetUrl;
+        const newExpression = isExampleWebsite ? "sad" : "happy";
+
+        // Create proper URL with expression
+        const rawImageUrl = createMomUrl(newMomAssetUrl, newExpression);
+        console.log("Updated raw image URL:", rawImageUrl);
+
+        const newImageUrl = `url('${rawImageUrl}')`;
+        draggableDiv.style.backgroundImage = newImageUrl;
+      }
+    }
+  });
+
   // Add 'sad' class to activate the blue pulse effect when on example.com
   if (isExampleWebsite) {
-    draggableDiv.classList.add('sad');
+    draggableDiv.classList.add("sad");
   }
 
   // Ensure no default positioning
