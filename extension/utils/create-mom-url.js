@@ -5,16 +5,16 @@
  * @returns {string} The full URL to the mom image
  */
 export function createMomUrl(assetUrl, expression) {
-  if (!assetUrl) {
-    // Default to brunette mom if no asset URL is provided
-    return `https://fdorughcnbbgdletmlut.supabase.co/storage/v1/object/public/mom-sprites/mom-brunette-${expression}.png`;
-  }
-
   // Remove trailing slash if present
-  const baseUrl = assetUrl.trim().endsWith("/")
+  let baseUrl = assetUrl.trim().endsWith("/")
     ? assetUrl.trim().slice(0, -1)
     : assetUrl.trim();
 
-  // Simply append the expression and .png extension
+  // Remove .png extension if present
+  if (baseUrl.toLowerCase().endsWith(".png")) {
+    baseUrl = baseUrl.slice(0, -4);
+  }
+
+  // Append the expression and .png extension
   return `${baseUrl}-${expression}.png`;
 }

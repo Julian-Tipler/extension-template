@@ -113,10 +113,6 @@ async function init() {
 
   // Check if the current website is fuq.com
   const currentHostname = window.location.hostname;
-  const isExampleWebsite =
-    currentHostname === "example.com" ||
-    currentHostname === "www.example.com" ||
-    currentHostname.endsWith(".example.com");
   // Get the user's auth token from storage
   const authToken = await getUserTokenFromStorage();
 
@@ -132,11 +128,14 @@ async function init() {
   }
   console.log("userData", userData);
   console.log("productData", productData);
-
+  console.log("currentHostname", currentHostname);
+  console.log("badWebsites", userData?.badWebsites);
+  const isBadWebsite = userData?.badWebsites.includes(currentHostname) || false;
+  console.log("isBadWebsite", isBadWebsite);
   // Determine the correct image URL
-  const expression = isExampleWebsite ? "sad" : "happy";
+  const expression = isBadWebsite ? "sad" : "happy";
   const momAssetUrl = productData?.assetUrl;
-
+  console.log("momAssetUrl", momAssetUrl);
   // Log raw URL for debugging
   const rawImageUrl = momAssetUrl ? createMomUrl(momAssetUrl, expression) : "";
   console.log("Raw image URL:", rawImageUrl);
@@ -154,27 +153,27 @@ async function init() {
   draggableDiv.style.height = "96px"; // Match image height
 
   // Listen for user data updates
-  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.type === "USER_DATA_UPDATED" && message.userData) {
-      userData = message.userData;
+  // chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  //   if (message.type === "USER_DATA_UPDATED" && message.userData) {
+  //     userData = message.userData;
 
-      // Update the mom image if needed
-      if (userData?.selectedProduct?.assetUrl) {
-        const newMomAssetUrl = userData.selectedProduct.assetUrl;
-        const newExpression = isExampleWebsite ? "sad" : "happy";
+  //     // Update the mom image if needed
+  //     if (userData?.selectedProduct?.assetUrl) {
+  //       const newMomAssetUrl = userData.selectedProduct.assetUrl;
+  //       const newExpression = isBadWebsite ? "sad" : "happy";
 
-        // Create proper URL with expression
-        const rawImageUrl = createMomUrl(newMomAssetUrl, newExpression);
-        console.log("Updated raw image URL:", rawImageUrl);
+  //       // Create proper URL with expression
+  //       const rawImageUrl = createMomUrl(newMomAssetUrl, newExpression);
+  //       console.log("Updated raw image URL:", rawImageUrl);
 
-        const newImageUrl = `url('${rawImageUrl}')`;
-        draggableDiv.style.backgroundImage = newImageUrl;
-      }
-    }
-  });
+  //       const newImageUrl = `url('${rawImageUrl}')`;
+  //       draggableDiv.style.backgroundImage = newImageUrl;
+  //     }
+  //   }
+  // });
 
   // Add 'sad' class to activate the blue pulse effect when on example.com
-  if (isExampleWebsite) {
+  if (isBadWebsite) {
     draggableDiv.classList.add("sad");
   }
 

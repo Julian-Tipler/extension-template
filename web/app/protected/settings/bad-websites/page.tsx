@@ -8,6 +8,23 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Badge } from "@/components/ui/Badge";
 
+// Function to normalize a hostname (removes protocol, www prefix, and trailing paths)
+const normalizeHostName = (url: string): string => {
+  try {
+    // Add protocol if not present to make URL parsing work
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = `https://${url}`;
+    }
+    
+    const hostname = new URL(url).hostname.replace(/^www\./, '');
+    return hostname;
+  } catch (error) {
+    // If URL parsing fails, return the original input
+    // This is a fallback and should rarely happen with proper validation
+    return url.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0];
+  }
+};
+
 export default function BadWebsites() {
   const { session, loading } = useAuth();
   const [websites, setWebsites] = useState<string[]>([]);
@@ -88,20 +105,18 @@ export default function BadWebsites() {
   const handleAddWebsite = () => {
     if (!newWebsite) return;
 
-    // Simple validation for website format
-    let websiteToAdd = newWebsite.trim();
-
-    // If website doesn't include http:// or https://, add https://
-    if (
-      !websiteToAdd.startsWith("http://") &&
-      !websiteToAdd.startsWith("https://")
-    ) {
-      websiteToAdd = `https://${websiteToAdd}`;
+    // Get normalized hostname (e.g., "facebook.com", "twitter.com")
+    const websiteToAdd = normalizeHostName(newWebsite.trim());
+    
+    if (!websiteToAdd || websiteToAdd.length < 3) {
+      setError("Please enter a valid website");
+      return;
     }
 
     // Check if website already exists in the list (case insensitive)
-    const isDuplicate = websites.some(
-      (site) => site.toLowerCase() === websiteToAdd.toLowerCase()
+    const normalizedCurrentSites = websites.map(site => normalizeHostName(site));
+    const isDuplicate = normalizedCurrentSites.some(
+      site => site.toLowerCase() === websiteToAdd.toLowerCase()
     );
 
     if (isDuplicate) {
@@ -109,7 +124,7 @@ export default function BadWebsites() {
       return;
     }
 
-    // Add the new website to the list
+    // Store the normalized website name
     setWebsites((prev) => [...prev, websiteToAdd]);
     setNewWebsite("");
     setError(null);
@@ -250,7 +265,7 @@ export default function BadWebsites() {
                   variant="secondary"
                   className="py-1 px-3 flex items-center gap-2"
                 >
-                  <span>{new URL(website).hostname.replace("www.", "")}</span>
+                  <span>{website}</span>
                   <button
                     onClick={() => handleRemoveWebsite(website)}
                     className="ml-1 text-muted-foreground hover:text-red-500 focus:outline-none focus:text-red-500 transition-colors"
