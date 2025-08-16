@@ -29,6 +29,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
+        if (chrome.runtime) {
+          console.log('chrome runtime')
+          if (session) {
+            chrome.runtime.sendMessage(
+              process.env.NEXT_PUBLIC_CHROME_EXTENSION_ID,
+              {
+                action: "saveYourMomSessionToken",
+                token: session.access_token,
+              }
+            );
+          } else {
+            chrome.runtime.sendMessage(
+              process.env.NEXT_PUBLIC_CHROME_EXTENSION_ID,
+              {
+                action: "removeYourMomSessionToken",
+              }
+            );
+          }
+        }
       }
     );
 

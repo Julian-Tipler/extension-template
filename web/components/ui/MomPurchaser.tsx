@@ -37,9 +37,9 @@ export default function MomPurchaser() {
         const supabase = createClient();
         const { data, error } = await supabase
           .from("products")
-          .select("id, assetUrl, name, price")
-          .eq("secret", false)
-          .order("price", { ascending: true });
+          .select("id, assetUrl, name, price, rarity")
+          .neq("rarity", "secret")
+          .order("rarity", { ascending: true });
 
         if (error) throw error;
 

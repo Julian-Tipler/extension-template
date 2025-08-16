@@ -29,7 +29,7 @@ export default function SecretMoms() {
         const { data, error } = await supabase
           .from("products")
           .select("id, assetUrl, name")
-          .eq("secret", true)
+          .eq("rarity", "secret")
           .in("name", ["Joker Mom", "Robot Mom"]) // Fetch both Joker Mom and Robot Mom
           .limit(2);
 

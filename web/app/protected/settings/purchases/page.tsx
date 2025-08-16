@@ -220,7 +220,7 @@ export default function PurchasesPage() {
                         purchase.status.slice(1)}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  {/* <td className="px-6 py-4 whitespace-nowrap text-sm">
                     {purchase.stripePurchaseId && (
                       <Button
                         variant="link"
@@ -236,7 +236,7 @@ export default function PurchasesPage() {
                         View Receipt
                       </Button>
                     )}
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>
