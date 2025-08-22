@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: {
           popup: "index.html", // The entry point for the React app
-          content: "content/content.js", // The entry point for the content script
+          content: "content/index.ts", // The entry point for the content script
           background: "background/background.js", // The entry point for the background script
         },
         output: {

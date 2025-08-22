@@ -12,16 +12,16 @@ import { Badge } from "@/components/ui/Badge";
 const normalizeHostName = (url: string): string => {
   try {
     // Add protocol if not present to make URL parsing work
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
       url = `https://${url}`;
     }
-    
-    const hostname = new URL(url).hostname.replace(/^www\./, '');
+
+    const hostname = new URL(url).hostname.replace(/^www\./, "");
     return hostname;
   } catch (error) {
     // If URL parsing fails, return the original input
     // This is a fallback and should rarely happen with proper validation
-    return url.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0];
+    return url.replace(/^(https?:\/\/)?(www\.)?/, "").split("/")[0];
   }
 };
 
@@ -107,16 +107,18 @@ export default function BadWebsites() {
 
     // Get normalized hostname (e.g., "facebook.com", "twitter.com")
     const websiteToAdd = normalizeHostName(newWebsite.trim());
-    
+
     if (!websiteToAdd || websiteToAdd.length < 3) {
       setError("Please enter a valid website");
       return;
     }
 
     // Check if website already exists in the list (case insensitive)
-    const normalizedCurrentSites = websites.map(site => normalizeHostName(site));
+    const normalizedCurrentSites = websites.map((site) =>
+      normalizeHostName(site)
+    );
     const isDuplicate = normalizedCurrentSites.some(
-      site => site.toLowerCase() === websiteToAdd.toLowerCase()
+      (site) => site.toLowerCase() === websiteToAdd.toLowerCase()
     );
 
     if (isDuplicate) {

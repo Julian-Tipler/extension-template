@@ -4,7 +4,7 @@
  * @param {'happy' | 'sad'} expression - Either 'happy' or 'sad'
  * @returns {string} The full URL to the mom image
  */
-export function createMomUrl(assetUrl, expression) {
+export function createMomUrl(assetUrl:string, expression: 'happy' | 'sad') {
   // Remove trailing slash if present
   let baseUrl = assetUrl.trim().endsWith("/")
     ? assetUrl.trim().slice(0, -1)

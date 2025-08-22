@@ -1,6 +1,6 @@
 #your-mom-draggable {
-  width: 94px; /* Match image width */
-  height: 96px; /* Match image height */
+  width: 48px; /* Half of original image size */
+  height: 48px; /* Half of original image size */
   background-color: transparent; /* No background color since we're using an image */
   position: fixed;
   z-index: 2147483647; /* Maximum z-index to ensure it's on top */
@@ -12,10 +12,11 @@
   box-sizing: border-box;
   display: block !important; /* Always show */
   visibility: visible !important; /* Always visible */
-  background-size: contain;
+  background-size: 100% 100%; /* Scale to fill container while maintaining aspect ratio */
   background-repeat: no-repeat;
-  border-radius: 25%; /* Add back the rounded corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for depth */
+  background-position: center; /* Ensure image is centered */
+  border-radius: 20%; /* Slightly reduced corner radius */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Slightly smaller shadow for smaller element */
 }
 
 #your-mom-draggable:hover {
@@ -32,10 +33,10 @@
 #your-mom-draggable.sad {
   animation: bluePulse 3s infinite ease-in-out;
   position: relative;
-  /* Add a subtle padding to make room for the glow without clipping */
-  padding: 2px;
-  /* Create space for the blur to extend outward */
-  margin: 5px;
+  /* Remove padding to prevent image distortion */
+  padding: 0;
+  /* Eliminate margin to prevent any layout shifts */
+  margin: 0;
 }
 
 /* Blue pulse animation */
