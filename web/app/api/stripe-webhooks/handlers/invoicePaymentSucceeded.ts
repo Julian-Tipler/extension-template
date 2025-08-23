@@ -10,7 +10,7 @@ export const invoicePaymentSucceeded = async (data: any) => {
   }
 
   // Get the period end from the invoice (in seconds, convert to ms)
-  const periodEnd = data?.object?.lines?.data?.[0]?.period?.end;
+  // const periodEnd = data?.object?.lines?.data?.[0]?.period?.end;
 
   // Update the subscription status to 'active', set lastPaymentAt and subscriptionExpiry
   const { error } = await supabaseAdmin

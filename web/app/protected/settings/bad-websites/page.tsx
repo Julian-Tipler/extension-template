@@ -18,7 +18,8 @@ const normalizeHostName = (url: string): string => {
 
     const hostname = new URL(url).hostname.replace(/^www\./, "");
     return hostname;
-  } catch (error) {
+  } catch (err) {
+    console.log(err);
     // If URL parsing fails, return the original input
     // This is a fallback and should rarely happen with proper validation
     return url.replace(/^(https?:\/\/)?(www\.)?/, "").split("/")[0];
@@ -62,9 +63,11 @@ export default function BadWebsites() {
         setWebsites(badWebsites);
         setOriginalWebsites(badWebsites);
         setHasChanges(false);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Error fetching bad websites:", err);
-        setError(err.message || "Failed to load bad websites");
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to load bad websites";
+        setError(errorMessage);
       } finally {
         setIsLoading(false);
       }
@@ -171,9 +174,11 @@ export default function BadWebsites() {
       setTimeout(() => {
         setSaveSuccess(false);
       }, 3000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error saving bad websites:", err);
-      setError(err.message || "Failed to save bad websites");
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to save bad websites";
+      setError(errorMessage);
     } finally {
       setIsSaving(false);
     }
@@ -255,7 +260,7 @@ export default function BadWebsites() {
         {websites.length === 0 ? (
           <div className="bg-muted/50 border rounded-lg p-6 text-center">
             <p className="text-muted-foreground">
-              You haven't added any websites to block yet.
+              You haven&apos;t added any websites to block yet.
             </p>
           </div>
         ) : (

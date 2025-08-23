@@ -55,9 +55,13 @@ export default function PurchasesPage() {
         }
 
         setPurchases(data || []);
-      } catch (err: any) {
+      } catch (err: Error | unknown) {
         console.error("Error fetching purchases:", err);
-        setError(err.message || "Failed to load purchase history");
+        const errorMessage =
+          err instanceof Error
+            ? err.message
+            : "Failed to load purchase history";
+        setError(errorMessage);
       } finally {
         setIsLoading(false);
       }

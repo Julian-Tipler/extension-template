@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -20,7 +20,8 @@ type Product = {
   assetUrl?: string;
 };
 
-export default function AccountPage() {
+// Client component that uses useSearchParams
+function AccountContent() {
   const { session, loading } = useAuth();
   const searchParams = useSearchParams();
   const messageFromURL = searchParams.get("message");
@@ -67,6 +68,7 @@ export default function AccountPage() {
       setTimeout(() => {
         setSuccessMessage(null);
       }, 3000);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error("Error updating selected product:", err);
       setError(err.message || "Failed to update your selected mom");
@@ -129,6 +131,7 @@ export default function AccountPage() {
         } else if (userData) {
           setSelectedProductId(userData.selectedProduct);
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         console.error("Error fetching purchases:", err);
         setError(err.message || "Failed to load your purchased products");
@@ -159,7 +162,7 @@ export default function AccountPage() {
                 <div className="relative h-24 w-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 overflow-hidden">
                   {getSelectedProduct()?.assetUrl ? (
                     <Image
-                      src={createMomUrl(getSelectedProduct()?.assetUrl!)}
+                      src={createMomUrl(getSelectedProduct()?.assetUrl || "")}
                       alt={getSelectedProduct()?.name || "Selected Mom"}
                       fill
                       style={{ objectFit: "cover" }}
@@ -183,7 +186,7 @@ export default function AccountPage() {
                   <p className="text-sm text-red-500">{error}</p>
                 ) : products.length === 0 ? (
                   <p className="text-sm text-muted-foreground">
-                    You don't own any products yet.
+                    You don&apos;t own any products yet.
                   </p>
                 ) : (
                   <div className="flex flex-wrap gap-3">
@@ -264,5 +267,37 @@ export default function AccountPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+// Loading fallback component
+function AccountSkeleton() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold">Account Settings</h2>
+        <p className="text-muted-foreground mt-2">
+          Manage Your Mom and personal information
+        </p>
+      </div>
+      <div className="border-t pt-6">
+        <div className="animate-pulse">
+          <div className="h-24 w-24 bg-gray-200 rounded-full mx-auto"></div>
+          <div className="h-4 w-24 bg-gray-200 rounded mt-2 mx-auto"></div>
+          <div className="h-8 w-full bg-gray-200 rounded mt-6"></div>
+          <div className="h-24 w-full bg-gray-200 rounded mt-4"></div>
+          <div className="h-12 w-full bg-gray-200 rounded mt-6"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main export component that wraps the client component with Suspense
+export default function AccountPage() {
+  return (
+    <Suspense fallback={<AccountSkeleton />}>
+      <AccountContent />
+    </Suspense>
   );
 }

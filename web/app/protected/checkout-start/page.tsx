@@ -3,7 +3,6 @@
 import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createStripeSessionAndRedirect } from "@/lib/createStripeSessionAndRedirect";
-import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/app/context/AuthProvider";
 
 function CheckoutStartContent() {

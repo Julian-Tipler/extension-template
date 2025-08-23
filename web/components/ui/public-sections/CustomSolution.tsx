@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import Section, { Variant } from "../layout/Section";
 import {
   BRAND_NAME,
-  CUSTOM_SERVICE,
   IMAGE_ONE_URL,
   IMAGE_TWO_URL,
 } from "@/lib/siteConfig";

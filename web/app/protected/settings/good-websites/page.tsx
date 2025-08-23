@@ -45,9 +45,11 @@ export default function GoodWebsites() {
         setWebsites(goodWebsites);
         setOriginalWebsites(goodWebsites);
         setHasChanges(false);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Error fetching good websites:", err);
-        setError(err.message || "Failed to load good websites");
+        setError(
+          err instanceof Error ? err.message : "Failed to load good websites"
+        );
       } finally {
         setIsLoading(false);
       }
@@ -154,9 +156,11 @@ export default function GoodWebsites() {
       setTimeout(() => {
         setSaveSuccess(false);
       }, 3000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error saving good websites:", err);
-      setError(err.message || "Failed to save good websites");
+      setError(
+        err instanceof Error ? err.message : "Failed to save good websites"
+      );
     } finally {
       setIsSaving(false);
     }
@@ -240,7 +244,7 @@ export default function GoodWebsites() {
         {websites.length === 0 ? (
           <div className="bg-muted/50 border rounded-lg p-6 text-center">
             <p className="text-muted-foreground">
-              You haven't added any websites to your good websites yet.
+              You haven&apos;t added any websites to your good websites yet.
             </p>
           </div>
         ) : (

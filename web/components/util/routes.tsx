@@ -1,5 +1,5 @@
-import { FiHelpCircle, FiHome, FiPhone, FiTool } from "react-icons/fi";
-import { GrArticle } from "react-icons/gr";
+import { FiHome, FiPhone } from "react-icons/fi";
+// import { GrArticle } from "react-icons/gr";
 import { IconType } from "react-icons";
 
 export const ROUTES = {

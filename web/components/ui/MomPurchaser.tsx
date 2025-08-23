@@ -219,11 +219,13 @@ export default function MomPurchaser() {
             } else {
               window.location.href = redirectLink;
             }
-            }}
-          >
-            Get {isRandomMom ? "Random" : BRAND_NAME}
-            {isRandomMom
-            ? ` - $${(Number(process.env.NEXT_PUBLIC_RANDOM_MOM_PRICE ?? 0) / 100).toFixed(2)}`
+          }}
+        >
+          Get {isRandomMom ? "Random" : BRAND_NAME}
+          {isRandomMom
+            ? ` - $${(
+                Number(process.env.NEXT_PUBLIC_RANDOM_MOM_PRICE ?? 0) / 100
+              ).toFixed(2)}`
             : moms[momIndex]?.price
             ? ` - $${(moms[momIndex].price / 100).toFixed(2)}`
             : "!"}
@@ -231,7 +233,9 @@ export default function MomPurchaser() {
         <div className="h-5 flex items-center justify-center">
           {isRandomMom ? (
             <p className="text-xs text-gray-500 mt-1">
-              Win a <span className="text-orange-500">premium</span> or <span className="text-tertiary">secret</span> mom you don't own!
+              Win a <span className="text-orange-500">premium</span> or{" "}
+              <span className="text-tertiary">secret</span> mom you don&apos;t
+              own!
             </p>
           ) : moms.length > 0 &&
             moms[momIndex] &&

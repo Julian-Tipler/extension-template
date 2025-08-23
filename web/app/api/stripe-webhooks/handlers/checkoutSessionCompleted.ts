@@ -4,12 +4,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 interface Product {
   id: string;
   randomChance?: number;
-  [key: string]: any; // Allow other properties
-}
-
-interface PurchaseWithProduct {
-  productId: string;
-  product: Product;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any; // Allow other properties
 }
 
@@ -116,7 +111,8 @@ export const checkoutSessionCompleted = async (data: any) => {
       console.error("Error fetching user", userError);
       throw new Error("Error fetching user");
     }
-    let purchasedProduct: any;
+
+    let purchasedProduct: string;
 
     // select random mom
     if (

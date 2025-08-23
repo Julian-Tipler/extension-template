@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 // import { stripe } from "@/lib/stripeClient";
 import { checkoutSessionCompleted } from "./handlers/checkoutSessionCompleted";
 import { customerSubscriptionDeleted } from "./handlers/customerSubscriptionDeleted";
-import { invoicePaymentSucceeded } from "./handlers/invoicePaymentSucceeded";
 import { invoicePaymentFailed } from "./handlers/invoicePaymentFailed";
 import Stripe from "stripe";
 import { headers } from "next/headers";

@@ -1,12 +1,12 @@
-import { RotatingMessages } from "../RotatingMessages";
+// import { RotatingMessages } from "../RotatingMessages";
 import Section, { Variant } from "../layout/Section";
 import { BRAND_NAME, MAIN_TAGLINE, SUB_TAGLINE } from "@/lib/siteConfig";
-import { Button } from "../Button";
+// import { Button } from "../Button";
 import { SubText } from "../text/SubText";
 import Spacer from "../Spacer";
 import { SupportingText } from "../text/SupportingText";
 import { TitleText } from "../text/TitleText";
-import { IconColor } from "../icons/IconColor";
+// import { IconColor } from "../icons/IconColor";
 import MomPurchaser from "../MomPurchaser";
 
 export const Hero = ({ variant = "primary" }: { variant?: Variant }) => {

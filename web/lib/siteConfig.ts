@@ -1,4 +1,4 @@
-import { BookOpen, Clock, Code, Eye, Smile } from "lucide-react";
+import { BookOpen, Clock, Eye, Smile } from "lucide-react";
 
 // Centralized site config for brand name
 export const BRAND_NAME = "Your Mom";

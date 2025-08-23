@@ -3,7 +3,6 @@ import { Features } from "@/components/ui/public-sections/Features";
 import { CustomSolution } from "@/components/ui/public-sections/CustomSolution";
 import { Contact } from "@/components/ui/public-sections/Contact";
 import { CallToAction } from "@/components/ui/public-sections/CallToAction";
-import { Plans } from "@/components/ui/public-sections/Plans";
 import { DESCRIPTION_OF_HOMEPAGE_CONTENT } from "@/lib/siteConfig";
 import type { Metadata } from "next";
 import SecretMoms from "@/components/ui/public-sections/SecretMoms";

@@ -109,7 +109,7 @@ export async function POST(request: Request) {
       }
 
       // Check if the user already owns this product
-      const { data: purchases, error: purchasesError } = await supabase
+      const { data: purchases } = await supabase
         .from("purchases")
         .select("id")
         .eq("userId", id)
