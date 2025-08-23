@@ -1,3 +1,4 @@
+// Save session token
 chrome.runtime.onMessageExternal.addListener(
   (request, sender, sendResponse) => {
     switch (request.action) {
@@ -26,3 +27,22 @@ function saveYourMomSessionToken(token) {
 function removeYourMomSessionToken() {
   chrome.storage.local.set({ yourMomSessionToken: null }, function() {});
 }
+
+// Fetch image
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "FETCH_IMAGE") {
+    fetch(message.url)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          // send base64 string back to content script
+          sendResponse({ dataUrl: reader.result });
+        };
+        reader.readAsDataURL(blob);
+      })
+      .catch((err) => sendResponse({ error: err.message }));
+
+    return true; // important: keep the channel open for async response
+  }
+});

@@ -39,8 +39,11 @@ async function init() {
   const yourMomDraggable = document.createElement("div");
   yourMomDraggable.id = "your-mom-draggable";
 
-  // Check if the current website is fuq.com
-  const currentHostname = window.location.hostname;
+  // Get the current hostname and normalize it by removing 'www.' if present
+  let currentHostname = window.location.hostname;
+  if (currentHostname.startsWith("www.")) {
+    currentHostname = currentHostname.substring(4);
+  }
   // Get the user's auth token from storage
   const authToken = await getUserTokenFromStorage();
 
@@ -58,8 +61,10 @@ async function init() {
   console.log("productData", productData);
   console.log("currentHostname", currentHostname);
   console.log("badWebsites", userData?.badWebsites);
-  const isBadWebsite = userData?.badWebsites.includes(currentHostname) || false;
-  console.log("isBadWebsite", isBadWebsite);
+  // Check if the normalized hostname is in the bad websites list
+  const isBadWebsite =
+    userData?.badWebsites?.includes(currentHostname) || false;
+  console.log("isBadWebsite", isBadWebsite, "comparing", currentHostname);
   // Determine the correct image URL
   const expression = isBadWebsite ? "sad" : "happy";
   const momAssetUrl = productData?.assetUrl;
@@ -68,18 +73,44 @@ async function init() {
   const rawImageUrl = momAssetUrl ? createMomUrl(momAssetUrl, expression) : "";
   console.log("Raw image URL:", rawImageUrl);
 
-  const imageUrl = momAssetUrl ? `url('${rawImageUrl}')` : "";
-
-  console.log("imageUrl", imageUrl);
   // Notify background service about mom state for potential tracking
   chrome.runtime.sendMessage({ type: "UPDATE_MOM_STATE", state: expression });
 
-  yourMomDraggable.style.backgroundImage = imageUrl;
-  yourMomDraggable.style.backgroundSize = "100% 100%"; // Scale the image to fill the container
-  yourMomDraggable.style.backgroundRepeat = "no-repeat";
-  yourMomDraggable.style.backgroundPosition = "center";
+  // Set initial size for the draggable
   yourMomDraggable.style.width = "48px"; // Half of original size
   yourMomDraggable.style.height = "48px"; // Half of original size
+  yourMomDraggable.style.borderRadius = "50%"; // Make the container round
+  yourMomDraggable.style.overflow = "hidden"; // Prevent content from spilling outside
+  yourMomDraggable.style.display = "flex"; // Use flexbox for centering
+  yourMomDraggable.style.justifyContent = "center"; // Center horizontally
+  yourMomDraggable.style.alignItems = "center"; // Center vertically
+
+  // Fetch image through background script to bypass CSP
+  if (rawImageUrl) {
+    chrome.runtime.sendMessage(
+      { type: "FETCH_IMAGE", url: rawImageUrl },
+      (response) => {
+        if (response.dataUrl) {
+          console.log("Fetched image data URL:", response.dataUrl);
+
+          // Create an img element and set its src to the data URL
+          const imgElement = document.createElement("img");
+          imgElement.src = response.dataUrl;
+          imgElement.style.width = "100%";
+          imgElement.style.height = "100%";
+          imgElement.style.objectFit = "contain";
+          imgElement.style.borderRadius = "50%"; // Make the image round
+          imgElement.style.overflow = "hidden"; // Prevent content from spilling outside
+
+          // Clear any existing content and append the image
+          yourMomDraggable.innerHTML = "";
+          yourMomDraggable.appendChild(imgElement);
+        } else {
+          console.error("Failed to fetch image:", response.error);
+        }
+      }
+    );
+  }
 
   // Listen for user data updates
   // chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -103,7 +134,7 @@ async function init() {
 
   // Add 'sad' class to activate the blue pulse effect when on example.com
   if (isBadWebsite) {
-    yourMomDraggable.classList.add("sad");
+    yourMomDraggable.classList.add("sad-mom");
   }
 
   // Ensure no default positioning

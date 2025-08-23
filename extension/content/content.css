@@ -30,9 +30,9 @@
 }
 
 /* Pulsing blue overlay for sad mom */
-#your-mom-draggable.sad {
+#your-mom-draggable.sad-mom {
   animation: bluePulse 3s infinite ease-in-out;
-  position: relative;
+  /* position: relative; */
   /* Remove padding to prevent image distortion */
   padding: 0;
   /* Eliminate margin to prevent any layout shifts */

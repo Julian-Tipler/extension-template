@@ -14,7 +14,8 @@ const webPageSchema = {
     "@id": "https://wisepilot.io/#website",
   },
   datePublished: "2023-01-01T00:00:00+00:00",
-  dateModified: new Date().toISOString(),
+  // Use a static date to avoid hydration mismatch
+  dateModified: "2025-08-23T00:00:00+00:00",
   breadcrumb: {
     "@id": "https://wisepilot.io/#breadcrumb",
   },
@@ -54,8 +55,9 @@ export default function RootJsonLd() {
           key={index}
           id={`json-ld-${index}`}
           type="application/ld+json"
+          suppressHydrationWarning={true}
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
         />
       ))}
     </>

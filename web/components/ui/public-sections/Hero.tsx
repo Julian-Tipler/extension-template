@@ -19,9 +19,9 @@ export const Hero = ({ variant = "primary" }: { variant?: Variant }) => {
             <span>{MAIN_TAGLINE}</span>
           </TitleText>
           <SupportingText>{SUB_TAGLINE}</SupportingText>
-          <div className="mt-10 flex h-fit flex-wrap items-center justify-center gap-2">
-            {/* {import.meta.env.VITE_SUPABASE_URL && <TemporaryDowntimeOverlay />} */}
-            {/* <input
+          {/* <div className="mt-10 flex h-fit flex-wrap items-center justify-center gap-2"> */}
+          {/* {import.meta.env.VITE_SUPABASE_URL && <TemporaryDowntimeOverlay />} */}
+          {/* <input
               id="name"
               //   value={url}
               //   onChange={(e) => setUrl(e.target.value)}
@@ -29,7 +29,8 @@ export const Hero = ({ variant = "primary" }: { variant?: Variant }) => {
               className="min-w-72 rounded-md border border-gray-300 p-2 text-base shadow-sm focus:border-blue-500 focus:ring-blue-500"
               //   onKeyDown={handleKeyPress}
             /> */}
-          </div>
+          {/* </div> */}
+          <Spacer size={"small"} />
           <SubText className="text-tertiary">
             Get {BRAND_NAME} for free!
           </SubText>
