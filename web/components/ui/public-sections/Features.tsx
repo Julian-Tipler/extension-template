@@ -7,7 +7,7 @@ import { FEATURE_TAGLINE, FEATURES } from "@/lib/siteConfig";
 export const Features = ({ variant = "primary" }: { variant?: Variant }) => {
   return (
     <Section id="features" variant={variant}>
-      <div className="mx-auto flex max-w-screen-xl flex-col gap-16 overflow-hidden px-4 py-24 sm:gap-24 lg:px-6 lg:py-28">
+      <div className="mx-auto flex max-w-screen-xl flex-col gap-16 overflow-hidden px-4 py-24 lg:px-6 lg:py-28">
         <div className="h-[348px] md:h-auto">
           <h2
             className="mb-4 text-5xl font-normal leading-tight text-gray-900 dark:text-white"

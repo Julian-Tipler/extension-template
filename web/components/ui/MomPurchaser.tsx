@@ -14,6 +14,7 @@ type Mom = {
   price?: number;
   description?: string;
   stripePriceId?: string;
+  rarity?: string;
 };
 
 export default function MomPurchaser() {
@@ -120,7 +121,7 @@ export default function MomPurchaser() {
           onClick={() => setExpression("happy")}
           className={`px-4 py-2 rounded-full flex items-center gap-2 transition-all ${
             expression === "happy"
-              ? "bg-green-500 text-white shadow-md"
+              ? "bg-green-800 text-white shadow-md"
               : "bg-gray-200 hover:bg-gray-300"
           }`}
         >
@@ -209,8 +210,12 @@ export default function MomPurchaser() {
       {error && <div className="text-red-500 text-sm">{error}</div>}
       <div className="flex flex-col items-center">
         <Button
-          variant={"primary"}
-          className="px-8"
+          variant="primary"
+          className={`px-8 ${
+            !isRandomMom && moms[momIndex]?.rarity === "premium"
+              ? "bg-orange-500 hover:bg-orange-600"
+              : ""
+          }`}
           disabled={loading || moms.length === 0}
           onClick={async () => {
             if (loading) return;
